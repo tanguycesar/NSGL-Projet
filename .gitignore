@@ -1,0 +1,25 @@
+# LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Python
+__pycache__/
+.venv/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data (optionnel)
+data/

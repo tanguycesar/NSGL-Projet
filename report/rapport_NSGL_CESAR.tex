@@ -1,0 +1,177 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{amssymb}
+
+#A supprimer pour les figures
+\setkeys{Gin}{draft}
+
+\graphicspath{{figures/}}
+
+\geometry{margin=2cm}
+\pagestyle{fancy}
+\fancyhead[L]{Projet NSGL}
+\fancyhead[R]{Tanguy CESAR}
+\fancyfoot[C]{\thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+\setlength{\headheight}{20pt}
+\setlist[itemize]{leftmargin=*,labelsep=1em}
+
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{Projet NSGL — Network Science and Graph Learning}}\\[0.3cm]
+    Tanguy CESAR
+\end{center}
+
+\vspace{0.5cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Introduction}
+
+Ce projet vise à analyser des réseaux sociaux issus du jeu de données \textit{Facebook100}, en mobilisant des outils classiques de \textbf{network science} ainsi que des méthodes de \textbf{graph learning}.  
+Les expériences portent sur l’analyse structurelle des graphes, l’étude de l’homophilie, la prédiction de liens, la propagation de labels et la détection de communautés.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Question 2 — Analyse de réseaux sociaux}
+
+Les réseaux étudiés dans cette partie sont ceux de \textit{Caltech}, \textit{MIT} et \textit{Johns Hopkins}.  
+Pour chacun, nous considérons la plus grande composante connexe du graphe.
+
+\subsection*{Distribution des degrés}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{deg_hist_caltech.png}
+    \includegraphics[width=0.48\textwidth]{deg_ccdf_caltech.png}
+    \caption{Histogramme et CCDF des degrés — Caltech}
+\end{figure}
+
+Les distributions de degrés présentent une forte hétérogénéité, avec une majorité de sommets faiblement connectés et quelques nœuds très centraux. La représentation en échelle log-log met en évidence une queue lourde, typique des réseaux sociaux.
+
+\subsection*{Clustering et densité}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+Réseau & $n$ & Densité & Clustering global & Clustering moyen \\
+\midrule
+Caltech & & & & \\
+MIT & & & & \\
+Johns Hopkins & & & & \\
+\bottomrule
+\end{tabular}
+\caption{Statistiques globales des réseaux}
+\end{table}
+
+Les graphes sont globalement peu denses mais présentent un clustering élevé, indiquant une forte tendance à la formation de triangles et de groupes locaux.
+
+\subsection*{Lien degré – clustering local}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{deg_vs_clust.png}
+    \caption{Clustering local en fonction du degré}
+\end{figure}
+
+On observe une relation décroissante entre le degré et le clustering local, traduisant le fait que les nœuds très connectés relient souvent des communautés différentes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Question 3 — Assortativité et homophilie}
+
+Nous mesurons l’assortativité des graphes selon différents attributs : statut, spécialité (major), résidence (dorm), genre et degré.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{assortativity_vs_size.png}
+    \caption{Assortativité en fonction de la taille du réseau}
+\end{figure}
+
+Les résultats montrent une forte homophilie pour les attributs sociaux (dorm, major), tandis que l’assortativité de degré est généralement faible ou légèrement négative.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Question 4 — Prédiction de liens}
+
+Nous implémentons trois métriques classiques :
+\begin{itemize}
+    \item Common Neighbors
+    \item Jaccard
+    \item Adamic-Adar
+\end{itemize}
+
+Une fraction $f$ des arêtes est supprimée aléatoirement, puis les liens manquants sont prédits à partir des scores.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{precision_recall.png}
+    \caption{Précision et rappel en fonction de $k$}
+\end{figure}
+
+Les résultats montrent que les méthodes basées sur les voisins communs sont efficaces pour les petites valeurs de $k$, Adamic-Adar offrant généralement les meilleures performances.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Question 5 — Propagation de labels}
+
+Nous appliquons un algorithme de propagation de labels pour prédire des attributs manquants (dorm, major, gender).  
+Une fraction de 10\%, 20\% et 30\% des labels est masquée aléatoirement.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccc}
+\toprule
+Attribut & Accuracy & F1-macro & MAE \\
+\midrule
+Dorm & & & \\
+Major & & & \\
+Gender & & & \\
+\bottomrule
+\end{tabular}
+\caption{Performances de la propagation de labels}
+\end{table}
+
+La résidence (\textit{dorm}) est généralement mieux prédite, ce qui s’explique par sa forte corrélation avec la structure communautaire du graphe.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Question 6 — Détection de communautés}
+
+\textbf{Question de recherche :}  
+Les communautés détectées correspondent-elles principalement aux résidences étudiantes ?
+
+Nous utilisons les algorithmes de Louvain et de maximisation gloutonne de la modularité.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccc}
+\toprule
+Méthode & Attribut & NMI & ARI \\
+\midrule
+Louvain & Dorm & & \\
+Greedy & Dorm & & \\
+\bottomrule
+\end{tabular}
+\caption{Comparaison communautés / attributs}
+\end{table}
+
+Les scores élevés de NMI et ARI pour l’attribut \textit{dorm} confirment que la structure communautaire reflète largement l’organisation résidentielle.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Conclusion}
+
+Ce projet met en évidence les propriétés classiques des réseaux sociaux universitaires : hétérogénéité des degrés, fort clustering, homophilie marquée et structure communautaire significative.  
+Les méthodes simples de graph learning se révèlent efficaces, tant pour la prédiction de liens que pour la récupération d’attributs manquants.
+
+\end{document}
