@@ -46,49 +46,51 @@ Ce projet vise à analyser des réseaux sociaux issus du jeu de données \textit
 Les expériences portent sur l’analyse structurelle des graphes, l’étude de l’homophilie, la prédiction de liens, la propagation de labels et la détection de communautés.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Question 1 — Analyse descriptive des réseaux sociaux}
+
+Cette première analyse porte sur les réseaux sociaux issus du jeu de données \textit{Facebook100}, en se limitant à la plus grande composante connexe de chaque graphe.  
+L’objectif est de caractériser leurs propriétés structurelles globales et de vérifier s’ils présentent des caractéristiques typiques des réseaux sociaux réels.
+
+Les distributions de degré mettent en évidence une forte hétérogénéité : la majorité des sommets possède un faible nombre de connexions, tandis qu’une minorité est très fortement connectée.  
+Les représentations en échelle log-log des histogrammes et des CCDF révèlent des queues lourdes, indiquant que ces réseaux ne peuvent pas être assimilés à des graphes aléatoires homogènes.
+
+Par ailleurs, les coefficients de clustering, tant globaux que locaux, sont élevés, traduisant une forte fermeture triadique.  
+L’analyse du clustering local en fonction du degré montre une relation décroissante, les nœuds faiblement connectés appartenant à des groupes très cohésifs, tandis que les nœuds de fort degré jouent davantage un rôle d’interconnexion entre communautés.
+
+Enfin, l’assortativité par degré est globalement positive, ce qui suggère que les individus très connectés ont tendance à se lier préférentiellement entre eux.  
+Ces résultats sont cohérents avec la littérature sur les réseaux Facebook universitaires et confirment que les graphes étudiés présentent les propriétés structurelles classiques des réseaux sociaux.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Question 2 — Analyse de réseaux sociaux}
 
-Les réseaux étudiés dans cette partie sont ceux de \textit{Caltech}, \textit{MIT} et \textit{Johns Hopkins}.  
-Pour chacun, nous considérons la plus grande composante connexe du graphe.
+Les réseaux étudiés dans cette partie correspondent aux universités de \textit{Caltech}, \textit{MIT} et \textit{Johns Hopkins}, issues du jeu de données \textit{Facebook100}.  
+Pour chacun d’eux, l’analyse est menée sur la plus grande composante connexe afin d’éviter les effets liés aux sommets isolés et de se concentrer sur la structure principale du réseau.
 
 \subsection*{Distribution des degrés}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.48\textwidth]{deg_hist_caltech.png}
-    \includegraphics[width=0.48\textwidth]{deg_ccdf_caltech.png}
-    \caption{Histogramme et CCDF des degrés — Caltech}
-\end{figure}
+Les distributions de degré mettent en évidence une forte hétérogénéité dans les trois réseaux considérés.  
+La majorité des sommets possède un nombre limité de connexions, tandis qu’un petit nombre de nœuds présente des degrés très élevés.  
+La représentation en échelle log-log de la fonction de distribution cumulative complémentaire (CCDF) révèle la présence de queues lourdes, indiquant que ces réseaux ne suivent pas une distribution homogène du type graphe aléatoire d’Erdős–Rényi.
 
-Les distributions de degrés présentent une forte hétérogénéité, avec une majorité de sommets faiblement connectés et quelques nœuds très centraux. La représentation en échelle log-log met en évidence une queue lourde, typique des réseaux sociaux.
+Malgré des tailles différentes, les réseaux de Caltech, MIT et Johns Hopkins présentent des distributions qualitativement similaires.  
+Cette invariance suggère l’existence de mécanismes de formation communs, tels que l’homophilie et l’attachement préférentiel, fréquemment observés dans les réseaux sociaux en ligne.
 
 \subsection*{Clustering et densité}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{lcccc}
-\toprule
-Réseau & $n$ & Densité & Clustering global & Clustering moyen \\
-\midrule
-Caltech & & & & \\
-MIT & & & & \\
-Johns Hopkins & & & & \\
-\bottomrule
-\end{tabular}
-\caption{Statistiques globales des réseaux}
-\end{table}
+Les réseaux sont caractérisés par une densité très faible, ce qui est attendu pour des graphes sociaux de grande taille où le nombre de relations effectives reste faible comparé au nombre de relations possibles.  
+En revanche, les coefficients de clustering, tant global que local moyen, sont élevés.
 
-Les graphes sont globalement peu denses mais présentent un clustering élevé, indiquant une forte tendance à la formation de triangles et de groupes locaux.
+Cette combinaison d’une faible densité et d’un fort clustering traduit une forte fermeture triadique : les amis d’un individu ont une probabilité élevée d’être également connectés entre eux.  
+Ce phénomène reflète la présence de communautés locales fortement cohésives et constitue une propriété classique des réseaux sociaux réels, souvent associée à l’effet \textit{small-world}.
 
-\subsection*{Lien degré – clustering local}
+\subsection*{Lien entre le degré et le clustering local}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.55\textwidth]{deg_vs_clust.png}
-    \caption{Clustering local en fonction du degré}
-\end{figure}
+L’analyse de la relation entre le degré des sommets et leur coefficient de clustering local met en évidence une tendance décroissante.  
+Les nœuds de faible degré présentent en moyenne un clustering élevé, ce qui indique leur appartenance à des groupes locaux denses.  
+À l’inverse, les nœuds fortement connectés ont un clustering plus faible, suggérant qu’ils relient plusieurs communautés distinctes plutôt que de s’inscrire dans une structure locale fortement fermée.
 
-On observe une relation décroissante entre le degré et le clustering local, traduisant le fait que les nœuds très connectés relient souvent des communautés différentes.
+Ce comportement est caractéristique d’une organisation hiérarchique des réseaux sociaux, dans laquelle les sommets de haut degré jouent un rôle de connecteurs globaux, facilitant la circulation de l’information entre communautés.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Question 3 — Assortativité et homophilie}
