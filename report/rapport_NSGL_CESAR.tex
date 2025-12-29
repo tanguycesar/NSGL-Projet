@@ -15,8 +15,8 @@
 \usepackage{array}
 \usepackage{amssymb}
 
-#A supprimer pour les figures
-\setkeys{Gin}{draft}
+% A supprimer pour les figures
+%\setkeys{Gin}{draft}
 
 \graphicspath{{figures/}}
 
@@ -42,138 +42,291 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Introduction}
 
-Ce projet vise à analyser des réseaux sociaux issus du jeu de données \textit{Facebook100}, en mobilisant des outils classiques de \textbf{network science} ainsi que des méthodes de \textbf{graph learning}.  
-Les expériences portent sur l’analyse structurelle des graphes, l’étude de l’homophilie, la prédiction de liens, la propagation de labels et la détection de communautés.
+Ce projet vise à analyser des réseaux sociaux issus du jeu de données \textit{Facebook100}, en mobilisant des outils classiques de \textbf{network science} ainsi que des méthodes de \textbf{graph learning}.
+Les expériences portent sur l'analyse structurelle des graphes, l'étude de l'homophilie, la prédiction de liens, la propagation de labels et la détection de communautés.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Question 1 — Analyse descriptive des réseaux sociaux}
 
-Cette première analyse porte sur les réseaux sociaux issus du jeu de données \textit{Facebook100}, en se limitant à la plus grande composante connexe de chaque graphe.  
-L’objectif est de caractériser leurs propriétés structurelles globales et de vérifier s’ils présentent des caractéristiques typiques des réseaux sociaux réels.
+Cette première analyse porte sur les réseaux sociaux issus du jeu de données \textit{Facebook100}, en se limitant à la plus grande composante connexe de chaque graphe.
+L'objectif est de caractériser leurs propriétés structurelles globales et de vérifier s'ils présentent des caractéristiques typiques des réseaux sociaux réels.
 
-Les distributions de degré mettent en évidence une forte hétérogénéité : la majorité des sommets possède un faible nombre de connexions, tandis qu’une minorité est très fortement connectée.  
+Les distributions de degré mettent en évidence une forte hétérogénéité : la majorité des sommets possède un faible nombre de connexions, tandis qu'une minorité est très fortement connectée.
 Les représentations en échelle log-log des histogrammes et des CCDF révèlent des queues lourdes, indiquant que ces réseaux ne peuvent pas être assimilés à des graphes aléatoires homogènes.
 
-Par ailleurs, les coefficients de clustering, tant globaux que locaux, sont élevés, traduisant une forte fermeture triadique.  
-L’analyse du clustering local en fonction du degré montre une relation décroissante, les nœuds faiblement connectés appartenant à des groupes très cohésifs, tandis que les nœuds de fort degré jouent davantage un rôle d’interconnexion entre communautés.
+Par ailleurs, les coefficients de clustering, tant globaux que locaux, sont élevés, traduisant une forte fermeture triadique.
+L'analyse du clustering local en fonction du degré montre une relation décroissante, les nœuds faiblement connectés appartenant à des groupes très cohésifs, tandis que les nœuds de fort degré jouent davantage un rôle d'interconnexion entre communautés.
 
-Enfin, l’assortativité par degré est globalement positive, ce qui suggère que les individus très connectés ont tendance à se lier préférentiellement entre eux.  
+Enfin, l'assortativité par degré est globalement positive, ce qui suggère que les individus très connectés ont tendance à se lier préférentiellement entre eux.
 Ces résultats sont cohérents avec la littérature sur les réseaux Facebook universitaires et confirment que les graphes étudiés présentent les propriétés structurelles classiques des réseaux sociaux.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Question 2 — Analyse de réseaux sociaux}
 
-Les réseaux étudiés dans cette partie correspondent aux universités de \textit{Caltech}, \textit{MIT} et \textit{Johns Hopkins}, issues du jeu de données \textit{Facebook100}.  
-Pour chacun d’eux, l’analyse est menée sur la plus grande composante connexe afin d’éviter les effets liés aux sommets isolés et de se concentrer sur la structure principale du réseau.
+Les réseaux étudiés dans cette partie correspondent aux universités de \textit{Caltech36}, \textit{MIT8} et \textit{Johns Hopkins55}, issues du jeu de données \textit{Facebook100}.
+Pour chacun d'eux, l'analyse est menée sur la plus grande composante connexe afin d'éviter les effets liés aux sommets isolés et de se concentrer sur la structure principale du réseau.
 
 \subsection*{Distribution des degrés}
 
-Les distributions de degré mettent en évidence une forte hétérogénéité dans les trois réseaux considérés.  
-La majorité des sommets possède un nombre limité de connexions, tandis qu’un petit nombre de nœuds présente des degrés très élevés.  
-La représentation en échelle log-log de la fonction de distribution cumulative complémentaire (CCDF) révèle la présence de queues lourdes, indiquant que ces réseaux ne suivent pas une distribution homogène du type graphe aléatoire d’Erdős–Rényi.
+Les distributions de degré mettent en évidence une forte hétérogénéité dans les trois réseaux considérés (tableau~\ref{tab:q2a}).
+La majorité des sommets possède un nombre limité de connexions, tandis qu'un petit nombre de nœuds présente des degrés très élevés (jusqu'à 886 pour Johns Hopkins).
 
-Malgré des tailles différentes, les réseaux de Caltech, MIT et Johns Hopkins présentent des distributions qualitativement similaires.  
-Cette invariance suggère l’existence de mécanismes de formation communs, tels que l’homophilie et l’attachement préférentiel, fréquemment observés dans les réseaux sociaux en ligne.
+\begin{table}[H]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+Réseau & Degré moyen & Degré médian & Degré max & Écart-type \\
+\midrule
+Caltech36 & 43,70 & 37 & 248 & 36,96 \\
+MIT8 & 78,48 & 56 & 708 & 79,01 \\
+Johns Hopkins55 & 72,36 & 54 & 886 & 69,01 \\
+\bottomrule
+\end{tabular}
+\caption{Statistiques des degrés pour les trois réseaux analysés}
+\label{tab:q2a}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{question2a_degree_histograms.png}
+    \caption{Histogrammes des degrés pour Caltech36, MIT8 et Johns Hopkins55}
+\end{figure}
+
+La représentation en échelle log-log de la fonction de distribution cumulative complémentaire (CCDF) révèle la présence de queues lourdes (figure~\ref{fig:ccdf}), indiquant que ces réseaux ne suivent pas une distribution homogène du type graphe aléatoire d'Erdős–Rényi.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{question2a_degree_ccdf.png}
+    \caption{CCDF des degrés en échelle log-log}
+    \label{fig:ccdf}
+\end{figure}
+
+Malgré des tailles différentes, les réseaux de Caltech, MIT et Johns Hopkins présentent des distributions qualitativement similaires.
+Cette invariance suggère l'existence de mécanismes de formation communs, tels que l'homophilie et l'attachement préférentiel, fréquemment observés dans les réseaux sociaux en ligne.
 
 \subsection*{Clustering et densité}
 
-Les réseaux sont caractérisés par une densité très faible, ce qui est attendu pour des graphes sociaux de grande taille où le nombre de relations effectives reste faible comparé au nombre de relations possibles.  
+Les réseaux sont caractérisés par une densité très faible (tableau~\ref{tab:q2b}), ce qui est attendu pour des graphes sociaux de grande taille où le nombre de relations effectives reste faible comparé au nombre de relations possibles.
 En revanche, les coefficients de clustering, tant global que local moyen, sont élevés.
 
-Cette combinaison d’une faible densité et d’un fort clustering traduit une forte fermeture triadique : les amis d’un individu ont une probabilité élevée d’être également connectés entre eux.  
-Ce phénomène reflète la présence de communautés locales fortement cohésives et constitue une propriété classique des réseaux sociaux réels, souvent associée à l’effet \textit{small-world}.
+\begin{table}[H]
+\centering
+\begin{tabular}{lccccc}
+\toprule
+Réseau & $n$ & $m$ & Densité & Clustering global & Clustering local moyen \\
+\midrule
+Caltech36 & 762 & 16\,651 & 0,057 & 0,291 & 0,409 \\
+MIT8 & 6\,402 & 251\,230 & 0,012 & 0,180 & 0,272 \\
+Johns Hopkins55 & 5\,157 & 186\,572 & 0,014 & 0,193 & 0,269 \\
+\bottomrule
+\end{tabular}
+\caption{Métriques de clustering et densité}
+\label{tab:q2b}
+\end{table}
+
+Cette combinaison d'une faible densité et d'un fort clustering traduit une forte fermeture triadique : les amis d'un individu ont une probabilité élevée d'être également connectés entre eux.
+Ce phénomène reflète la présence de communautés locales fortement cohésives et constitue une propriété classique des réseaux sociaux réels, souvent associée à l'effet \textit{small-world}.
 
 \subsection*{Lien entre le degré et le clustering local}
 
-L’analyse de la relation entre le degré des sommets et leur coefficient de clustering local met en évidence une tendance décroissante.  
-Les nœuds de faible degré présentent en moyenne un clustering élevé, ce qui indique leur appartenance à des groupes locaux denses.  
-À l’inverse, les nœuds fortement connectés ont un clustering plus faible, suggérant qu’ils relient plusieurs communautés distinctes plutôt que de s’inscrire dans une structure locale fortement fermée.
+L'analyse de la relation entre le degré des sommets et leur coefficient de clustering local met en évidence une tendance décroissante (figure~\ref{fig:deg_clust}).
+Les nœuds de faible degré présentent en moyenne un clustering élevé, ce qui indique leur appartenance à des groupes locaux denses.
+À l'inverse, les nœuds fortement connectés ont un clustering plus faible, suggérant qu'ils relient plusieurs communautés distinctes plutôt que de s'inscrire dans une structure locale fortement fermée.
 
-Ce comportement est caractéristique d’une organisation hiérarchique des réseaux sociaux, dans laquelle les sommets de haut degré jouent un rôle de connecteurs globaux, facilitant la circulation de l’information entre communautés.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{question2c_degree_vs_clustering.png}
+    \caption{Relation entre le degré et le coefficient de clustering local}
+    \label{fig:deg_clust}
+\end{figure}
+
+Ce comportement est caractéristique d'une organisation hiérarchique des réseaux sociaux, dans laquelle les sommets de haut degré jouent un rôle de connecteurs globaux, facilitant la circulation de l'information entre communautés.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Question 3 — Assortativité et homophilie}
 
-Nous mesurons l’assortativité des graphes selon différents attributs : statut, spécialité (major), résidence (dorm), genre et degré.
+Nous mesurons l'assortativité des graphes selon cinq attributs sur l'ensemble des 100 réseaux Facebook100 : statut étudiant/faculté (student\_fac), spécialité (major\_index), résidence (dorm), genre (gender) et degré.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+Attribut & Moyenne & Médiane & Min & Max \\
+\midrule
+student\_fac & 0,323 & 0,317 & 0,110 & 0,543 \\
+major\_index & 0,056 & 0,050 & 0,030 & 0,151 \\
+degree & 0,063 & 0,065 & $-0,066$ & 0,197 \\
+dorm & 0,227 & 0,221 & 0,079 & 0,485 \\
+gender & 0,053 & 0,055 & $-0,092$ & 0,246 \\
+\bottomrule
+\end{tabular}
+\caption{Statistiques d'assortativité sur les 100 réseaux Facebook100}
+\label{tab:q3}
+\end{table}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.55\textwidth]{assortativity_vs_size.png}
-    \caption{Assortativité en fonction de la taille du réseau}
+    \includegraphics[width=0.85\textwidth]{question3_assortativity_student_fac.png}
+    \caption{Assortativité par statut étudiant/faculté en fonction de la taille du réseau}
 \end{figure}
 
-Les résultats montrent une forte homophilie pour les attributs sociaux (dorm, major), tandis que l’assortativité de degré est généralement faible ou légèrement négative.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{question3_assortativity_dorm.png}
+    \caption{Assortativité par résidence (dorm)}
+\end{figure}
+
+Les résultats révèlent une forte homophilie pour l'attribut \textit{student\_fac} (moyenne $r = 0{,}32$) et pour la résidence \textit{dorm} (moyenne $r = 0{,}23$).
+Ces valeurs élevées indiquent que les individus ayant le même statut ou la même résidence ont une probabilité significativement plus élevée d'être connectés.
+
+En revanche, l'assortativité par genre et par spécialité est plus faible (environ $0{,}05$), suggérant une influence moindre de ces attributs sur la formation des liens.
+L'assortativité par degré est légèrement positive en moyenne ($0{,}06$), bien que certains réseaux présentent une assortativité négative, ce qui indique une certaine variabilité dans les mécanismes de connexion préférentielle.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Question 4 — Prédiction de liens}
 
-Nous implémentons trois métriques classiques :
+Nous implémentons manuellement (sans utiliser les fonctions NetworkX) trois métriques classiques de prédiction de liens :
 \begin{itemize}
-    \item Common Neighbors
-    \item Jaccard
-    \item Adamic-Adar
+    \item \textbf{Common Neighbors} : $|N(u) \cap N(v)|$
+    \item \textbf{Jaccard} : $\frac{|N(u) \cap N(v)|}{|N(u) \cup N(v)|}$
+    \item \textbf{Adamic-Adar} : $\sum_{w \in N(u) \cap N(v)} \frac{1}{\log |N(w)|}$
 \end{itemize}
 
-Une fraction $f$ des arêtes est supprimée aléatoirement, puis les liens manquants sont prédits à partir des scores.
+L'évaluation est réalisée sur le réseau \textit{American75} (6\,370 nœuds, 217\,654 arêtes).
+Une fraction $f \in \{0{,}05; 0{,}10; 0{,}15; 0{,}20\}$ des arêtes est supprimée aléatoirement, puis les liens manquants sont prédits à partir des scores calculés sur les paires candidates (ayant au moins un voisin commun).
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccc}
+\toprule
+Méthode & Precision@50 & Precision@100 & Precision@400 \\
+\midrule
+Common Neighbors & 0,815 & 0,813 & 0,794 \\
+Adamic-Adar & 0,810 & 0,790 & 0,781 \\
+Jaccard & 0,160 & 0,280 & 0,423 \\
+\bottomrule
+\end{tabular}
+\caption{Précision moyenne sur les quatre fractions testées}
+\label{tab:q4}
+\end{table}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{precision_recall.png}
-    \caption{Précision et rappel en fonction de $k$}
+    \includegraphics[width=0.85\textwidth]{question4_link_prediction_f0.10.png}
+    \caption{Précision et rappel en fonction de $k$ ($f = 0{,}10$)}
 \end{figure}
 
-Les résultats montrent que les méthodes basées sur les voisins communs sont efficaces pour les petites valeurs de $k$, Adamic-Adar offrant généralement les meilleures performances.
+Les résultats montrent que \textbf{Common Neighbors} et \textbf{Adamic-Adar} obtiennent des performances très proches et excellentes, avec des précisions supérieures à 80\% pour les petites valeurs de $k$.
+La méthode \textbf{Jaccard}, en revanche, est significativement moins performante sur ce réseau.
+
+On observe également que la précision augmente légèrement lorsque la fraction d'arêtes supprimées augmente, ce qui s'explique par le fait qu'il y a davantage de liens à prédire parmi les paires candidates.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Question 5 — Propagation de labels}
 
-Nous appliquons un algorithme de propagation de labels pour prédire des attributs manquants (dorm, major, gender).  
-Une fraction de 10\%, 20\% et 30\% des labels est masquée aléatoirement.
+Nous appliquons un algorithme de propagation de labels semi-supervisé implémenté en PyTorch pour prédire des attributs manquants sur le réseau \textit{American75}.
+Une fraction de 10\%, 20\% et 30\% des labels connus est masquée aléatoirement, puis l'algorithme propage les labels à travers la structure du graphe.
+
+Les attributs testés sont : résidence (dorm), spécialité (major\_index) et genre (gender).
 
 \begin{table}[H]
 \centering
-\begin{tabular}{lccc}
+\begin{tabular}{lcccc}
 \toprule
-Attribut & Accuracy & F1-macro & MAE \\
+Attribut & Fraction retirée & Accuracy & F1-macro & MAE \\
 \midrule
-Dorm & & & \\
-Major & & & \\
-Gender & & & \\
+dorm & 10\% & 0,688 & 0,658 & 1,42 \\
+dorm & 20\% & 0,689 & 0,538 & 1,61 \\
+dorm & 30\% & 0,654 & 0,565 & 1,59 \\
+\midrule
+major\_index & 10\% & 0,305 & 0,081 & 15,27 \\
+major\_index & 20\% & 0,313 & 0,102 & 14,54 \\
+major\_index & 30\% & 0,291 & 0,078 & 15,40 \\
+\midrule
+gender & 10\% & 0,601 & 0,525 & 0,40 \\
+gender & 20\% & 0,603 & 0,523 & 0,40 \\
+gender & 30\% & 0,608 & 0,517 & 0,39 \\
 \bottomrule
 \end{tabular}
-\caption{Performances de la propagation de labels}
+\caption{Performances de la propagation de labels sur American75}
+\label{tab:q5}
 \end{table}
 
-La résidence (\textit{dorm}) est généralement mieux prédite, ce qui s’explique par sa forte corrélation avec la structure communautaire du graphe.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{question5_label_propagation.png}
+    \caption{Évolution de l'accuracy et du F1-macro en fonction de la fraction de labels retirés}
+\end{figure}
+
+L'attribut \textit{dorm} est le mieux prédit (accuracy $\approx 0{,}69$), ce qui s'explique par sa forte corrélation avec la structure communautaire du graphe : les étudiants d'une même résidence forment des groupes denses.
+L'attribut \textit{gender} obtient des performances intermédiaires (accuracy $\approx 0{,}60$).
+En revanche, la spécialité \textit{major\_index} est difficile à prédire (accuracy $\approx 0{,}30$), le grand nombre de classes et leur distribution inégale rendant la propagation moins efficace.
+
+On note également que les performances restent stables lorsque la fraction de labels masqués augmente, ce qui témoigne de la robustesse de l'algorithme de propagation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Question 6 — Détection de communautés}
 
-\textbf{Question de recherche :}  
-Les communautés détectées correspondent-elles principalement aux résidences étudiantes ?
+\textbf{Question de recherche :}
+Les communautés détectées reflètent-elles principalement la structure résidentielle (dorm), la discipline (major), l'année (year) ou le genre (gender) ?
 
-Nous utilisons les algorithmes de Louvain et de maximisation gloutonne de la modularité.
+Nous appliquons deux algorithmes de détection de communautés — Louvain et maximisation gloutonne de la modularité (Greedy Modularity) — sur trois réseaux : American75, Caltech36 et MIT8.
+La correspondance entre les communautés détectées et les attributs des nœuds est mesurée par le NMI (Normalized Mutual Information) et l'ARI (Adjusted Rand Index).
 
 \begin{table}[H]
 \centering
-\begin{tabular}{lccc}
+\begin{tabular}{llcccc}
 \toprule
-Méthode & Attribut & NMI & ARI \\
+Réseau & Méthode & Attribut & \#Comm. & NMI & ARI \\
 \midrule
-Louvain & Dorm & & \\
-Greedy & Dorm & & \\
+Caltech36 & Louvain & dorm & 8 & 0,703 & 0,693 \\
+Caltech36 & Louvain & year & 8 & 0,086 & 0,016 \\
+Caltech36 & Greedy & dorm & 8 & 0,413 & 0,273 \\
+\midrule
+American75 & Louvain & dorm & 13 & 0,266 & 0,113 \\
+American75 & Louvain & year & 13 & 0,289 & 0,288 \\
+\midrule
+MIT8 & Louvain & dorm & 13 & 0,292 & 0,070 \\
+MIT8 & Louvain & year & 13 & 0,288 & 0,275 \\
 \bottomrule
 \end{tabular}
-\caption{Comparaison communautés / attributs}
+\caption{Correspondance communautés / attributs (meilleurs résultats)}
+\label{tab:q6}
 \end{table}
 
-Les scores élevés de NMI et ARI pour l’attribut \textit{dorm} confirment que la structure communautaire reflète largement l’organisation résidentielle.
+\begin{table}[H]
+\centering
+\begin{tabular}{lcc}
+\toprule
+Attribut & NMI moyen & ARI moyen \\
+\midrule
+dorm & 0,327 & 0,204 \\
+year & 0,215 & 0,163 \\
+major\_index & 0,055 & 0,010 \\
+gender & 0,006 & 0,002 \\
+\bottomrule
+\end{tabular}
+\caption{Statistiques moyennes par attribut sur les trois réseaux}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{question6_communities_Caltech36.png}
+    \caption{Comparaison NMI et ARI pour Caltech36}
+\end{figure}
+
+Les résultats révèlent que l'attribut \textit{dorm} (résidence) présente la meilleure correspondance avec les communautés détectées, avec un NMI moyen de 0,33.
+Ce résultat est particulièrement marqué pour Caltech36, où le NMI atteint 0,70 avec Louvain.
+
+L'attribut \textit{year} (année d'études) montre également une correspondance notable (NMI $\approx 0{,}21$), tandis que la discipline (\textit{major\_index}) et le genre (\textit{gender}) ne présentent qu'une très faible correspondance avec la structure communautaire.
+
+\textbf{Conclusion :} La structure communautaire des réseaux Facebook universitaires reflète principalement l'organisation résidentielle et, dans une moindre mesure, l'année d'études.
+Cela confirme que la proximité géographique et temporelle joue un rôle majeur dans la formation des groupes sociaux au sein des universités.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Conclusion}
 
-Ce projet met en évidence les propriétés classiques des réseaux sociaux universitaires : hétérogénéité des degrés, fort clustering, homophilie marquée et structure communautaire significative.  
-Les méthodes simples de graph learning se révèlent efficaces, tant pour la prédiction de liens que pour la récupération d’attributs manquants.
+Ce projet met en évidence les propriétés classiques des réseaux sociaux universitaires : hétérogénéité des degrés, fort clustering, homophilie marquée et structure communautaire significative.
+Les méthodes simples de graph learning se révèlent efficaces, tant pour la prédiction de liens que pour la récupération d'attributs manquants.
 
 \end{document}
