@@ -82,7 +82,7 @@ def plot_degree_distribution(graphs: Dict[str, nx.Graph], output_dir: str = "rep
     plt.tight_layout()
     hist_path = output_path / "question2a_degree_histograms.png"
     plt.savefig(hist_path, dpi=300, bbox_inches='tight')
-    print(f"✓ Sauvegardé: {hist_path}")
+    print(f"Sauvegardé: {hist_path}")
     plt.close()
     
     # Figure 2: CCDF log-log (comparaison)
@@ -109,7 +109,7 @@ def plot_degree_distribution(graphs: Dict[str, nx.Graph], output_dir: str = "rep
     plt.tight_layout()
     ccdf_path = output_path / "question2a_degree_ccdf.png"
     plt.savefig(ccdf_path, dpi=300, bbox_inches='tight')
-    print(f"✓ Sauvegardé: {ccdf_path}")
+    print(f"Sauvegardé: {ccdf_path}")
     plt.close()
 
 
@@ -179,7 +179,7 @@ def plot_degree_vs_clustering(graphs: Dict[str, nx.Graph], output_dir: str = "re
     plt.tight_layout()
     filepath = output_path / "question2c_degree_vs_clustering.png"
     plt.savefig(filepath, dpi=300, bbox_inches='tight')
-    print(f"✓ Sauvegardé: {filepath}")
+    print(f"Sauvegardé: {filepath}")
     plt.close()
 
 
@@ -239,7 +239,7 @@ def analyze_question2(graphs: Dict[str, nx.Graph], output_dir: str = "report/fig
     
     plot_degree_vs_clustering(graphs, output_dir)
     
-    print("\n✓ Analyse Question 2 terminée")
+    print("\nAnalyse Question 2 terminée")
 
 
 def main():
@@ -270,19 +270,19 @@ def main():
             print(f"\n⚠ Réseaux manquants: {', '.join(missing)}")
         
         if not selected_graphs:
-            print("❌ Aucun des réseaux sélectionnés n'est disponible")
+            print("Aucun des réseaux sélectionnés n'est disponible")
             return
         
-        print(f"\n✓ {len(selected_graphs)} réseaux sélectionnés pour l'analyse\n")
+        print(f"\n{len(selected_graphs)} réseaux sélectionnés pour l'analyse\n")
         
         # Analyser
         analyze_question2(selected_graphs, output_dir="report/figures")
         
     except FileNotFoundError as e:
-        print(f"\n❌ Erreur: {e}")
+        print(f"\nErreur: {e}")
         sys.exit(1)
     except Exception as e:
-        print(f"\n❌ Erreur inattendue: {e}")
+        print(f"\nErreur inattendue: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)

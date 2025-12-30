@@ -180,10 +180,10 @@ def analyze_communities(G: nx.Graph, graph_name: str) -> pd.DataFrame:
     communities_dict = detect_communities(G)
     
     if not communities_dict:
-        print("  ⚠ Aucune méthode de détection n'a fonctionné")
+        print("  Aucune méthode de détection n'a fonctionné")
         return pd.DataFrame()
     
-    print(f"  ✓ {len(communities_dict)} méthode(s) appliquée(s)")
+    print(f"  {len(communities_dict)} méthode(s) appliquée(s)")
     
     # Attributs à comparer
     attributes = [
@@ -292,7 +292,7 @@ def plot_community_comparison(df: pd.DataFrame, output_dir: str = "report/figure
         filename = f"question6_communities_{network}.png"
         filepath = output_path / filename
         plt.savefig(filepath, dpi=300, bbox_inches='tight')
-        print(f"  ✓ {filename}")
+        print(f"  {filename}")
         plt.close()
 
 
@@ -317,7 +317,7 @@ def analyze_question6(graphs: Dict[str, nx.Graph], output_dir: str = "report/fig
             all_results.append(df)
     
     if not all_results:
-        print("\n❌ Aucun résultat obtenu")
+        print("\nAucun résultat obtenu")
         return
     
     # Combiner tous les résultats
@@ -347,7 +347,7 @@ def analyze_question6(graphs: Dict[str, nx.Graph], output_dir: str = "report/fig
     
     csv_path = output_path / "question6_communities_results.csv"
     df_all.to_csv(csv_path, index=False)
-    print(f"\n✓ Résultats sauvegardés: {csv_path}")
+    print(f"\nRésultats sauvegardés: {csv_path}")
     
     # Visualisations
     print("\nGénération des graphiques...")
@@ -395,10 +395,10 @@ def main():
         # Sélectionner les réseaux
         selected_graphs = {}
         for name in SELECTED_NETWORKS:
-            if name in all_graphs:
-                selected_graphs[name] = all_graphs[name]
+            if name in graphs:
+                selected_graphs[name] = graphs[name]
             else:
-                print(f"⚠ Réseau '{name}' non trouvé")
+                print(f"Réseau '{name}' non trouvé")
         
         if not selected_graphs:
             # Prendre le premier disponible
@@ -412,10 +412,10 @@ def main():
         analyze_question6(selected_graphs, output_dir="report/figures")
         
     except FileNotFoundError as e:
-        print(f"\n❌ Erreur: {e}")
+        print(f"\nErreur: {e}")
         sys.exit(1)
     except Exception as e:
-        print(f"\n❌ Erreur inattendue: {e}")
+        print(f"\nErreur inattendue: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)

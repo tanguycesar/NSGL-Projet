@@ -128,7 +128,7 @@ def plot_assortativity(df: pd.DataFrame, attribute: str, output_dir: str = "repo
         output_dir: Dossier de sortie
     """
     if df.empty:
-        print(f"⚠ Aucune valeur d'assortativité calculable pour '{attribute}'")
+        print(f"Aucune valeur d'assortativité calculable pour '{attribute}'")
         return
     
     output_path = Path(output_dir)
@@ -166,7 +166,7 @@ def plot_assortativity(df: pd.DataFrame, attribute: str, output_dir: str = "repo
     filename = f"question3_assortativity_{attribute}.png"
     filepath = output_path / filename
     plt.savefig(filepath, dpi=300, bbox_inches='tight')
-    print(f"  ✓ {filename}")
+    print(f"  {filename}")
     plt.close()
     
     # Statistiques
@@ -243,13 +243,12 @@ def analyze_question3(graphs: Dict[str, nx.Graph], output_dir: str = "report/fig
         print(df_summary.to_string(index=False))
         
         # Sauvegarder
+        
         summary_path = output_path / "question3_assortativity_summary.csv"
         df_summary.to_csv(summary_path, index=False)
-        print(f"\n✓ Résumé sauvegardé: {summary_path}")
+        print(f"\nRésumé sauvegardé: {summary_path}")
     
-    print("\n✓ Analyse Question 3 terminée")
-
-
+    print("\nAnalyse Question 3 terminée")
 def main():
     """Fonction principale"""
     DATA_DIR = "data"
@@ -263,19 +262,19 @@ def main():
         graphs = load_graphs_with_cache(data_dir=DATA_DIR, verbose=True)
         
         if not graphs:
-            print("❌ Aucun graphe chargé")
+            print("Aucun graphe chargé")
             return
         
-        print(f"\n✓ {len(graphs)} réseaux chargés\n")
+        print(f"\n{len(graphs)} réseaux chargés\n")
         
         # Analyser
         analyze_question3(graphs, output_dir="report/figures")
         
     except FileNotFoundError as e:
-        print(f"\n❌ Erreur: {e}")
+        print(f"\nErreur: {e}")
         sys.exit(1)
     except Exception as e:
-        print(f"\n❌ Erreur inattendue: {e}")
+        print(f"\nErreur inattendue: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)

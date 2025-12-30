@@ -21,7 +21,7 @@ def main():
     # Se placer dans le répertoire du script
     script_dir = Path(__file__).parent
     os.chdir(script_dir)
-    print(f"📂 Répertoire de travail: {script_dir}\n")
+    print(f"Répertoire de travail: {script_dir}\n")
     
     data_dir = Path("data")
     
@@ -56,7 +56,7 @@ def main():
             return
     
     # Créer le cache
-    print("🔄 Chargement et création du cache...\n")
+    print("Chargement et création du cache...\n")
     graphs = load_graphs_with_cache(force_reload=True, verbose=True)
     
     if graphs:
@@ -66,7 +66,7 @@ def main():
         print(f"\nVous pouvez maintenant exécuter les analyses :")
         print("  python run_analysis.py      # Toutes les questions")
         print("  python question1_stats.py   # Question spécifique")
-        print("\nLes chargements seront maintenant instantanés ! 🚀")
+        print("\nLes chargements seront maintenant instantanés !")
     else:
         print("\n❌ Erreur lors de la création du cache")
 

@@ -159,7 +159,7 @@ def save_results(df: pd.DataFrame, output_dir: str = "results"):
     
     filepath = output_path / "question1_statistics.csv"
     df.to_csv(filepath, index=False)
-    print(f"\n✓ Résultats sauvegardés: {filepath}")
+    print(f"\nRésultats sauvegardés: {filepath}")
 
 
 def main():
@@ -187,7 +187,7 @@ def main():
             print("Aucun graphe chargé. Vérifiez le dossier data/")
             return
         
-        print(f"\n✓ {len(graphs)} réseaux chargés\n")
+        print(f"\n{len(graphs)} réseaux chargés\n")
         
         # Analyser tous les réseaux disponibles
         print("\nAnalyse de TOUS les réseaux disponibles:")
@@ -205,13 +205,13 @@ def main():
             display_summary(df_selected)
         
     except FileNotFoundError as e:
-        print(f"\n❌ Erreur: {e}")
+        print(f"\nErreur: {e}")
         print("\nAssurez-vous que:")
         print("  1. Le dossier 'data/' existe")
         print("  2. Les fichiers .gml Facebook100 sont présents")
         sys.exit(1)
     except Exception as e:
-        print(f"\n❌ Erreur inattendue: {e}")
+        print(f"\nErreur inattendue: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)

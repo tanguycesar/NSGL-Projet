@@ -64,20 +64,15 @@ class Facebook100Loader:
         # Charger le graphe avec label='id' pour utiliser les IDs du fichier
         G = nx.read_gml(filepath, label='id')
         
-        # Convertir en graphe simple non orienté (élimine automatiquement les doubles arêtes)
+        # Convertir en graphe simple non orienté
         if not isinstance(G, nx.Graph):
             G = nx.Graph(G)
-        
-        # Vérification explicite: pas de multi-arêtes (déjà garanti par nx.Graph)
-        assert not G.is_multigraph(), f"Multi-graphe détecté dans {filepath.name}"
         
         # Convertir les labels en entiers séquentiels
         G = nx.convert_node_labels_to_integers(G, ordering="sorted")
         
-        # Supprimer les boucles (self-loops)
-        num_selfloops = G.number_of_selfloops()
-        if num_selfloops > 0:
-            G.remove_edges_from(nx.selfloop_edges(G))
+        # Supprimer les boucles
+        G.remove_edges_from(nx.selfloop_edges(G))
         
         # Normaliser les attributs
         G = self._normalize_attributes(G)
@@ -185,7 +180,7 @@ class Facebook100Loader:
                     print(f"[ERREUR] {filepath.name}: {e}")
         
         if verbose:
-            print(f"\n✓ {len(graphs)} réseaux chargés avec succès")
+            print(f"\n{len(graphs)} réseaux chargés avec succès")
         
         return graphs
     

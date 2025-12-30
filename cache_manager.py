@@ -34,7 +34,7 @@ def load_graphs_with_cache(data_dir: str = "data",
     # Vérifier si le cache existe et n'est pas forcé à recharger
     if cache_path.exists() and not force_reload:
         if verbose:
-            print(f"📦 Chargement depuis le cache: {cache_path}")
+            print(f"Chargement depuis le cache: {cache_path}")
             print("   (pour forcer le rechargement: force_reload=True)")
         
         try:
@@ -58,7 +58,7 @@ def load_graphs_with_cache(data_dir: str = "data",
     
     # Charger depuis les fichiers .gml
     if verbose:
-        print(f"📂 Chargement depuis les fichiers .gml dans {data_dir}/")
+        print(f"Chargement depuis les fichiers .gml dans {data_dir}/")
     
     loader = Facebook100Loader(data_dir=data_dir)
     graphs = loader.load_all_graphs(extract_lcc=True, verbose=verbose)
@@ -91,7 +91,7 @@ def clear_cache(data_dir: str = "data", verbose: bool = True):
             print(f"✓ Cache supprimé: {cache_path}")
     else:
         if verbose:
-            print(f"ℹ Aucun cache à supprimer")
+            print(f"Aucun cache à supprimer")
 
 
 def main():
@@ -103,19 +103,19 @@ def main():
     print("="*80 + "\n")
     
     # Premier chargement (depuis .gml)
-    print("🔄 Premier chargement (depuis .gml)...")
+    print("Premier chargement (depuis .gml)...")
     start = time.time()
     graphs1 = load_graphs_with_cache(force_reload=True)
     time1 = time.time() - start
-    print(f"\n⏱ Temps: {time1:.2f}s")
+    print(f"\nTemps: {time1:.2f}s")
     
     # Deuxième chargement (depuis cache)
     print("\n" + "-"*80)
-    print("🔄 Deuxième chargement (depuis cache)...")
+    print("Deuxième chargement (depuis cache)...")
     start = time.time()
     graphs2 = load_graphs_with_cache()
     time2 = time.time() - start
-    print(f"\n⏱ Temps: {time2:.2f}s")
+    print(f"\nTemps: {time2:.2f}s")
     
     # Comparaison
     print("\n" + "="*80)

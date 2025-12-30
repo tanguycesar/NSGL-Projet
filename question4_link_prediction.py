@@ -304,7 +304,7 @@ def plot_link_prediction_results(df: pd.DataFrame, output_dir: str = "report/fig
         filename = f"question4_link_prediction_f{frac:.2f}.png"
         filepath = output_path / filename
         plt.savefig(filepath, dpi=300, bbox_inches='tight')
-        print(f"  ✓ {filename}")
+        print(f"  {filename}")
         plt.close()
 
 
@@ -365,13 +365,13 @@ def analyze_question4_multiple(graphs: Dict[str, nx.Graph], output_dir: str = "r
     
     csv_path = output_path / "question4_link_prediction_results_all.csv"
     df_all.to_csv(csv_path, index=False)
-    print(f"\n✓ Résultats sauvegardés: {csv_path}")
+    print(f"\nRésultats sauvegardés: {csv_path}")
     
     # Visualisation agrégée
     print("\nGénération du graphique agrégé...")
     plot_link_prediction_aggregated(df_all, output_dir)
     
-    print("\n✓ Analyse Question 4 terminée")
+    print("\nAnalyse Question 4 terminée")
 
 
 def plot_link_prediction_aggregated(df: pd.DataFrame, output_dir: str):
@@ -458,13 +458,13 @@ def analyze_question4(G: nx.Graph, graph_name: str, output_dir: str = "report/fi
     
     csv_path = output_path / "question4_link_prediction_results.csv"
     df_all.to_csv(csv_path, index=False)
-    print(f"\n✓ Résultats sauvegardés: {csv_path}")
+    print(f"\nRésultats sauvegardés: {csv_path}")
     
     # Visualisations
     print("\nGénération des graphiques...")
     plot_link_prediction_results(df_all, output_dir)
     
-    print("\n✓ Analyse Question 4 terminée")
+    print("\nAnalyse Question 4 terminée")
 
 
 def main():
@@ -497,10 +497,10 @@ def main():
         analyze_question4_multiple(selected_graphs, output_dir="report/figures")
         
     except FileNotFoundError as e:
-        print(f"\n❌ Erreur: {e}")
+        print(f"\nErreur: {e}")
         sys.exit(1)
     except Exception as e:
-        print(f"\n❌ Erreur inattendue: {e}")
+        print(f"\nErreur inattendue: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)

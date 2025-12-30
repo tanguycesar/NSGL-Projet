@@ -165,9 +165,9 @@ def print_usage():
 def main():
     """Fonction principale"""
     
-    # Vérifier les arguments
+    # Traiter les arguments
     if len(sys.argv) > 2:
-        print("❌ Trop d'arguments")
+        print("Trop d'arguments")
         print_usage()
         sys.exit(1)
     

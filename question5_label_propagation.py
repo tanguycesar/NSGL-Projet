@@ -264,7 +264,7 @@ def plot_label_propagation_results(df: pd.DataFrame, output_dir: str = "report/f
     
     filepath = output_path / "question5_label_propagation.png"
     plt.savefig(filepath, dpi=300, bbox_inches='tight')
-    print(f"  ✓ {filepath.name}")
+    print(f"  {filepath.name}")
     plt.close()
 
 
@@ -294,7 +294,7 @@ def analyze_question5(G: nx.Graph, graph_name: str, output_dir: str = "report/fi
                                            frac_remove_list=[0.1, 0.2, 0.3],
                                            seed=0, device=device)
             all_results.append(df)
-            print(f"  ✓ Terminé")
+            print(f"  Terminé")
             
         except Exception as e:
             print(f"  ✗ Échec: {e}")
@@ -318,13 +318,13 @@ def analyze_question5(G: nx.Graph, graph_name: str, output_dir: str = "report/fi
     
     csv_path = output_path / "question5_label_propagation_results.csv"
     df_all.to_csv(csv_path, index=False)
-    print(f"\n✓ Résultats sauvegardés: {csv_path}")
+    print(f"\nRésultats sauvegardés: {csv_path}")
     
     # Visualiser
     print("\nGénération des graphiques...")
     plot_label_propagation_results(df_all, output_dir)
     
-    print("\n✓ Analyse Question 5 terminée")
+    print("\nAnalyse Question 5 terminée")
     
     return df_all
 
@@ -501,10 +501,10 @@ def main():
         analyze_question5_multiple(sampled_graphs, output_dir="report/figures")
         
     except FileNotFoundError as e:
-        print(f"\n❌ Erreur: {e}")
+        print(f"\nErreur: {e}")
         sys.exit(1)
     except Exception as e:
-        print(f"\n❌ Erreur inattendue: {e}")
+        print(f"\nErreur inattendue: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)
