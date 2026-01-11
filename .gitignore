@@ -1,3 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
 # LaTeX
 *.aux
 *.log
@@ -6,20 +20,25 @@
 *.synctex.gz
 *.fls
 *.fdb_latexmk
+*.bbl
+*.blg
 
-# Jupyter
-.ipynb_checkpoints/
-
-# Python
-__pycache__/
-.venv/
-
-# VS Code
+# IDE
 .vscode/
+.idea/
+*.swp
+*.swo
+*~
+.history/
 
 # OS
 .DS_Store
 Thumbs.db
+Desktop.ini
 
-# Data (optionnel)
-data/
+# Cache
+graph_cache.pkl
+*.pkl
+
+# Data (optionnel - décommenter si les données sont trop lourdes)
+# data/
