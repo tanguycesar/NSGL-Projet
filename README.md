@@ -6,7 +6,7 @@
 
 ---
 
-## 📁 Structure du projet
+## Structure du projet
 
 ```
 NSGL-Projet/
@@ -65,7 +65,7 @@ Chaque question du TP possède son propre script Python :
 
 ---
 
-## 🚀 Ordre d'exécution
+## Ordre d'exécution
 
 ### 1. Initialisation du cache (première fois uniquement)
 
@@ -102,21 +102,21 @@ pdflatex rapport_NSGL_CESAR.tex  # Deux fois pour les références croisées
 
 ---
 
-## 📊 Résultats
+## Résultats
 
 Tous les résultats (figures PNG et tableaux CSV) sont automatiquement sauvegardés dans `report/figures/`.
 
 Le rapport final contient :
-- ✅ Analyse descriptive des 100 réseaux (Q1)
-- ✅ Étude détaillée de 3 réseaux spécifiques (Q2)
-- ✅ Assortativité et homophilie pour 5 attributs (Q3)
-- ✅ Prédiction de liens avec 3 métriques (Q4)
-- ✅ Propagation de labels semi-supervisée (Q5)
-- ✅ Détection de communautés et correspondance avec attributs (Q6)
+-  Analyse descriptive des 100 réseaux (Q1)
+-  Étude détaillée de 3 réseaux spécifiques (Q2)
+-  Assortativité et homophilie pour 5 attributs (Q3)
+-  Prédiction de liens avec 3 métriques (Q4)
+-  Propagation de labels semi-supervisée (Q5)
+-  Détection de communautés et correspondance avec attributs (Q6)
 
 ---
 
-## 🛠️ Dépendances
+## Dépendances
 
 ```
 Python 3.8+
@@ -133,11 +133,3 @@ Installation :
 pip install networkx numpy pandas matplotlib torch scikit-learn
 ```
 
----
-
-## 📝 Notes
-
-- 💾 Le système de cache permet de charger instantanément les 100 graphes (évite ~2-3 min de chargement)
-- 📈 Chaque script génère automatiquement ses figures et CSV dans `report/figures/`
-- ⏱️ Les analyses Q4 et Q5 peuvent prendre quelques minutes selon la machine
-- 🔄 Les imports dans les scripts utilisent des chemins relatifs depuis la racine du projet
