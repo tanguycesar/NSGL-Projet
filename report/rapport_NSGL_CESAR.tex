@@ -34,7 +34,7 @@
 \begin{document}
 
 \begin{center}
-    {\Large \textbf{Projet NSGL — Network Science and Graph Learning}}\\[0.3cm]
+    {\Large \textbf{Projet NSGL - Network Science and Graph Learning}}\\[0.3cm]
     Tanguy CESAR
 \end{center}
 
@@ -47,7 +47,7 @@ Ce projet vise à analyser des réseaux sociaux issus du jeu de données \textit
 Les expériences portent sur l'analyse structurelle des graphes, l'étude de l'homophilie, la prédiction de liens, la propagation de labels et la détection de communautés.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Question 1 — Analyse descriptive des réseaux sociaux}
+\section*{Question 1 - Analyse descriptive des réseaux sociaux}
 
 Cette première analyse porte sur les 100 réseaux sociaux issus du jeu de données \textit{Facebook100}, en se limitant à la plus grande composante connexe de chaque graphe.
 L'objectif est de caractériser leurs propriétés structurelles globales et de vérifier s'ils présentent des caractéristiques typiques des réseaux sociaux réels.
@@ -73,7 +73,7 @@ Ces propriétés structurelles s'expliquent par plusieurs mécanismes sociologiq
 Ces résultats sont cohérents avec les études antérieures sur les réseaux Facebook universitaires et confirment que les graphes étudiés présentent les propriétés structurelles classiques des réseaux sociaux réels.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Question 2 — Analyse de réseaux sociaux}
+\section*{Question 2 - Analyse de réseaux sociaux}
 
 Les réseaux étudiés dans cette partie correspondent aux universités de \textit{Caltech36}, \textit{MIT8} et \textit{Johns Hopkins55}, issues du jeu de données \textit{Facebook100}.
 Pour chacun d'eux, l'analyse est menée sur la plus grande composante connexe afin d'éviter les effets liés aux sommets isolés et de se concentrer sur la structure principale du réseau.
@@ -157,7 +157,7 @@ Les nœuds de faible degré présentent en moyenne un clustering élevé, ce qui
 Ce comportement est caractéristique d'une organisation hiérarchique des réseaux sociaux, dans laquelle les sommets de haut degré jouent un rôle de connecteurs globaux, facilitant la circulation de l'information entre communautés.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Question 3 — Assortativité et homophilie}
+\section*{Question 3 - Assortativité et homophilie}
 
 Nous mesurons l'assortativité des graphes selon cinq attributs sur l'ensemble des 100 réseaux Facebook100 : statut étudiant/faculté (student\_fac), spécialité (major\_index), résidence (dorm), genre (gender) et degré.
 
@@ -233,7 +233,7 @@ L'assortativité par genre est faible ($r = 0{,}053$), indiquant une mixité soc
 L'analyse révèle une hiérarchie claire : \textit{student\_fac} ($r = 0{,}32$) $>$ \textit{dorm} ($r = 0{,}23$) $\gg$ \textit{degree} ($r = 0{,}06$) $\approx$ \textit{major\_index} ($r = 0{,}06$) $\approx$ \textit{gender} ($r = 0{,}05$). Les attributs spatiaux et statutaires dominent, confirmant l'importance de la proximité physique et de la structure institutionnelle. La forte variabilité inter-réseaux (particulièrement pour \textit{dorm}) souligne que chaque campus possède sa propre dynamique sociale.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Question 4 — Prédiction de liens}
+\section*{Question 4 - Prédiction de liens}
 
 Nous implémentons manuellement (sans utiliser les fonctions NetworkX) trois métriques classiques de prédiction de liens : \textbf{Common Neighbors} ($|N(u) \cap N(v)|$), \textbf{Jaccard} ($\frac{|N(u) \cap N(v)|}{|N(u) \cup N(v)|}$) et \textbf{Adamic-Adar} ($\sum_{w \in N(u) \cap N(v)} \frac{1}{\log |N(w)|}$).
 
@@ -345,7 +345,7 @@ Pour des raisons de complexité calculatoire, nous limitons l'évaluation à 50\
 L'implémentation manuelle (sans NetworkX) a nécessité l'optimisation des calculs de similarité via le précalcul des voisinages et l'utilisation de structures ensemblistes, essentielles pour traiter efficacement des réseaux de plusieurs milliers de nœuds.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Question 5 — Propagation de labels}
+\section*{Question 5 - Propagation de labels}
 
 Nous appliquons un algorithme de propagation de labels semi-supervisé implémenté en PyTorch (utilisant des matrices sparse pour l'efficacité) afin de prédire des attributs manquants.
 L'algorithme itératif propage l'information des nœuds étiquetés vers les nœuds non étiquetés via la structure du graphe, en utilisant la formule :
@@ -418,13 +418,13 @@ Les attributs présentant une forte assortativité (\textit{dorm} : $r = 0{,}23$
 Cette cohérence valide l'hypothèse selon laquelle la structure du réseau encode de l'information sur les attributs des nœuds.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Question 6 — Détection de communautés}
+\section*{Question 6 - Détection de communautés}
 
 \subsection*{Question de recherche et fondements théoriques}
 
 Cette question cherche à identifier \textbf{quel(s) attribut(s) des nœuds structure(nt) principalement les communautés observées dans les réseaux sociaux universitaires}. Plusieurs hypothèses concurrentes sont testées. La \textbf{structure résidentielle (dorm)} suggère que la proximité spatiale et les interactions quotidiennes dans les cafétérias, couloirs et événements devraient créer des communautés alignées sur les résidences. L'\textbf{homophilie académique (major)} postule que les étudiants de même discipline, partageant des cours, projets et intérêts communs, favoriseraient la formation de communautés disciplinaires. La \textbf{cohorte temporelle (year)} avance que les étudiants d'une même promotion, partageant un parcours académique similaire et des événements sociaux spécifiques (orientation, remise de diplôme), formeraient des groupes distincts. Enfin, l'\textbf{homophilie de genre (gender)} s'appuie sur les théories sociologiques suggérant une tendance à former des liens intra-genre, particulièrement dans certains contextes sociaux.
 
-\textbf{Méthodes employées :} Deux algorithmes de détection de communautés sont appliqués — \textbf{Louvain} (optimisation hiérarchique de la modularité, complexité quasi-linéaire) et \textbf{Greedy Modularity} (maximisation gloutonne de la modularité). La correspondance entre les communautés détectées et les attributs des nœuds est quantifiée par le \textbf{NMI (Normalized Mutual Information)} qui mesure l'information mutuelle normalisée entre deux partitions, variant de 0 (indépendantes) à 1 (identiques) et restant robuste aux variations du nombre de communautés, ainsi que par l'\textbf{ARI (Adjusted Rand Index)} qui mesure la similarité entre deux clusterings en corrigeant pour le hasard, variant de $-1$ à 1, et qui se montre plus strict que le NMI en pénalisant davantage les découpages approximatifs.
+\textbf{Méthodes employées :} Deux algorithmes de détection de communautés sont appliqués - \textbf{Louvain} (optimisation hiérarchique de la modularité, complexité quasi-linéaire) et \textbf{Greedy Modularity} (maximisation gloutonne de la modularité). La correspondance entre les communautés détectées et les attributs des nœuds est quantifiée par le \textbf{NMI (Normalized Mutual Information)} qui mesure l'information mutuelle normalisée entre deux partitions, variant de 0 (indépendantes) à 1 (identiques) et restant robuste aux variations du nombre de communautés, ainsi que par l'\textbf{ARI (Adjusted Rand Index)} qui mesure la similarité entre deux clusterings en corrigeant pour le hasard, variant de $-1$ à 1, et qui se montre plus strict que le NMI en pénalisant davantage les découpages approximatifs.
 
 Les expériences sont menées sur trois réseaux représentatifs : \textit{Caltech36} (petit campus scientifique, structure résidentielle forte), \textit{American75} (université de taille moyenne), \textit{MIT8} (grande université technologique).
 
