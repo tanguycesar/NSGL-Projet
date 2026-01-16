@@ -316,9 +316,7 @@ def analyze_question4_multiple(graphs: Dict[str, nx.Graph], output_dir: str = "r
         graphs: Dictionnaire {nom: graphe NetworkX}
         output_dir: Dossier de sortie
     """
-    print("\n" + "="*80)
     print("QUESTION 4: LINK PREDICTION")
-    print("="*80)
     
     all_results = []
     
@@ -340,22 +338,18 @@ def analyze_question4_multiple(graphs: Dict[str, nx.Graph], output_dir: str = "r
             df = evaluate_predictor(G, predictor_class, seed=0)
             df['réseau'] = graph_name
             all_results.append(df)
-            print(f"  ✓ Terminé")
+            print(f"  Terminé")
     
     # Combiner tous les résultats
     df_all = pd.concat(all_results, ignore_index=True)
     
     # Statistiques globales par méthode
-    print("\n" + "="*80)
     print("PERFORMANCES MOYENNES GLOBALES (tous réseaux confondus)")
-    print("="*80)
     summary = df_all.groupby(['méthode', 'k'], as_index=False)[['precision@k', 'recall@k']].mean()
     print(summary.to_string(index=False))
     
     # Statistiques par réseau
-    print("\n" + "="*80)
     print("PERFORMANCES PAR RÉSEAU (moyennées sur k et f)")
-    print("="*80)
     summary_network = df_all.groupby(['réseau', 'méthode'], as_index=False)[['precision@k', 'recall@k']].mean()
     print(summary_network.to_string(index=False))
     
@@ -407,7 +401,7 @@ def plot_link_prediction_aggregated(df: pd.DataFrame, output_dir: str):
     
     filepath = output_path / "question4_link_prediction_aggregated.png"
     plt.savefig(filepath, dpi=300, bbox_inches='tight')
-    print(f"  ✓ question4_link_prediction_aggregated.png")
+    print(f"  question4_link_prediction_aggregated.png")
     plt.close()
 
 
@@ -440,15 +434,11 @@ def analyze_question4(G: nx.Graph, graph_name: str, output_dir: str = "report/fi
     df_all = pd.concat(all_results, ignore_index=True)
     
     # Afficher un aperçu
-    print("\n" + "-"*80)
     print("Aperçu des résultats:")
-    print("-"*80)
     print(df_all.head(15).to_string(index=False))
     
     # Statistiques moyennes
-    print("\n" + "-"*80)
     print("Performances moyennes (sur toutes les fractions):")
-    print("-"*80)
     summary = df_all.groupby(['méthode', 'k'], as_index=False)[['precision@k', 'recall@k']].mean()
     print(summary.to_string(index=False))
     
@@ -468,25 +458,26 @@ def analyze_question4(G: nx.Graph, graph_name: str, output_dir: str = "report/fi
 
 
 def main():
-    """Fonction principale"""
+    """Fonction principale - Link prediction sur 15 réseaux aléatoires"""
     DATA_DIR = "data"
+    NUM_NETWORKS = 15
+    SEED = 42
     
-    print("="*80)
-    print("QUESTION 4: LINK PREDICTION SUR UN LARGE SET DE GRAPHES")
-    print("="*80 + "\n")
+    print(f"QUESTION 4: LINK PREDICTION SUR {NUM_NETWORKS} RÉSEAUX")
     
     try:
         # Charger les données avec cache
         all_graphs = load_graphs_with_cache(data_dir=DATA_DIR, verbose=True)
         
         if not all_graphs:
-            print("❌ Aucun graphe chargé")
+            print("Aucun graphe chargé")
             return
         
-        # Échantillonner 15 graphes aléatoires
-        if len(all_graphs) > 15:
-            print("\nÉchantillonnage de 15 réseaux aléatoires pour l'analyse...\n")
-            sampled_names = random.sample(list(all_graphs.keys()), 15)
+        # Échantillonner NUM_NETWORKS graphes aléatoires
+        random.seed(SEED)
+        if len(all_graphs) > NUM_NETWORKS:
+            print(f"\nÉchantillonnage de {NUM_NETWORKS} réseaux aléatoires...\n")
+            sampled_names = random.sample(list(all_graphs.keys()), NUM_NETWORKS)
             selected_graphs = {name: all_graphs[name] for name in sampled_names}
         else:
             selected_graphs = all_graphs

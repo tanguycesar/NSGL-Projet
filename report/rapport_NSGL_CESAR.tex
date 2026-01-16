@@ -47,36 +47,32 @@ Ce projet vise à analyser des réseaux sociaux issus du jeu de données \textit
 Les expériences portent sur l'analyse structurelle des graphes, l'étude de l'homophilie, la prédiction de liens, la propagation de labels et la détection de communautés.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Question 1 - Analyse descriptive des réseaux sociaux}
+\section*{Analyse descriptive des réseaux sociaux}
 
 Cette première analyse porte sur les 100 réseaux sociaux issus du jeu de données \textit{Facebook100}, en se limitant à la plus grande composante connexe de chaque graphe.
-L'objectif est de caractériser leurs propriétés structurelles globales et de vérifier s'ils présentent des caractéristiques typiques des réseaux sociaux réels.
+L'objectif est de caractériser leurs propriétés structurelles globales.
 
 \subsection*{Propriétés structurelles observées}
 
 \textbf{Hétérogénéité des degrés :}
 Les distributions de degré mettent en évidence une forte hétérogénéité. La majorité des sommets possède un faible nombre de connexions (degré médian $\approx$ 20-60), tandis qu'une minorité est très fortement connectée (degré maximum pouvant atteindre 900).
-Les représentations en échelle log-log des histogrammes et des CCDF révèlent des queues lourdes, caractéristiques des réseaux \textit{scale-free}. Cette hétérogénéité indique que ces réseaux ne peuvent pas être assimilés à des graphes aléatoires homogènes de type Erdős–Rényi.
+Les représentations en échelle log-log des histogrammes et des CCDF révèlent des queues lourdes.
 
 \textbf{Clustering élevé et propriété small-world :}
-Les coefficients de clustering, tant globaux (0,15-0,30) que locaux moyens (0,25-0,45), sont élevés, traduisant une forte fermeture triadique.
-L'analyse du clustering local en fonction du degré montre une relation décroissante : les nœuds faiblement connectés appartiennent à des groupes très cohésifs (clustering local $>$ 0,6), tandis que les nœuds de fort degré jouent davantage un rôle d'interconnexion entre communautés (clustering local $<$ 0,2).
-Cette combinaison d'un clustering élevé et de faibles distances moyennes entre nœuds est typique de la propriété \textit{small-world}.
+Les coefficients de clustering, tant globaux (0,15-0,30) que locaux moyens (0,25-0,45), sont élevés, traduisant une forte tendance à la fermeture des triades (les amis de mes amis sont mes amis).
+L'analyse du clustering local en fonction du degré montre une relation décroissante : les nœuds faiblement connectés appartiennent souvent à des groupes locaux denses, tandis que les nœuds de fort degré ont un coefficient de clustering plus faible.
 
 \textbf{Assortativité positive :}
-L'assortativité par degré est globalement positive (moyenne $\approx$ 0,06), suggérant que les individus très connectés ont tendance à se lier préférentiellement entre eux. Ce phénomène, moins marqué que dans d'autres types de réseaux sociaux (e.g., réseaux de collaboration scientifique), reflète néanmoins une structuration hiérarchique des connexions.
+L'assortativité par degré est globalement positive (moyenne $\approx$ 0,06). Cela suggère une légère tendance des nœuds très connectés à être reliés entre eux, bien que ce phénomène soit modéré comparé à d'autres types de réseaux (comme les réseaux de collaboration scientifique).
 
-\subsection*{Interprétation et mécanismes de formation}
-
-Ces propriétés structurelles s'expliquent par plusieurs mécanismes sociologiques et dynamiques de formation de réseaux. L'\textbf{attachement préférentiel} conduit les étudiants populaires à attirer davantage de nouvelles connexions, créant ainsi des \textit{hubs} fortement connectés. La \textbf{triadic closure} explique pourquoi les amis d'un étudiant ont une forte probabilité de devenir amis entre eux, générant un clustering élevé. L'\textbf{homophilie} joue également un rôle central, les étudiants se connectant préférentiellement avec des pairs partageant des caractéristiques communes telles que la résidence, la discipline ou l'année d'études, ce qui structure le réseau en communautés distinctes. Enfin, les \textbf{contraintes spatiales} imposées par la proximité géographique (dortoirs, salles de cours) limitent le nombre de connexions possibles tout en renforçant le clustering local.
-
-Ces résultats sont cohérents avec les études antérieures sur les réseaux Facebook universitaires et confirment que les graphes étudiés présentent les propriétés structurelles classiques des réseaux sociaux réels.
+\subsection*{Synthèse}
+Les analyses confirment que les graphes étudiés présentent les propriétés statistiques classiques attendues pour des réseaux sociaux de cette taille : une densité faible, un clustering local fort et une distribution de degrés à queue lourde.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Question 2 - Analyse de réseaux sociaux}
 
 Les réseaux étudiés dans cette partie correspondent aux universités de \textit{Caltech36}, \textit{MIT8} et \textit{Johns Hopkins55}, issues du jeu de données \textit{Facebook100}.
-Pour chacun d'eux, l'analyse est menée sur la plus grande composante connexe afin d'éviter les effets liés aux sommets isolés et de se concentrer sur la structure principale du réseau.
+Pour chacun d'eux, l'analyse est menée sur la plus grande composante connexe.
 
 \subsection*{Distribution des degrés}
 
@@ -104,24 +100,22 @@ Johns Hopkins55 & 72,36 & 54 & 886 & 69,01 \\
     \caption{Histogrammes des degrés pour Caltech36, MIT8 et Johns Hopkins55}
 \end{figure}
 
-La représentation en échelle log-log de la fonction de distribution cumulative complémentaire (CCDF) révèle la présence de queues lourdes (figure~\ref{fig:ccdf}), caractéristiques des distributions à loi de puissance.
-Ces distributions indiquent que ces réseaux ne suivent pas une distribution homogène du type graphe aléatoire d'Erdős–Rényi, mais présentent plutôt des propriétés de type \textit{scale-free} où quelques nœuds concentrent la majorité des connexions.
-La décroissance approximativement linéaire en échelle log-log suggère une décroissance en loi de puissance $P(k) \propto k^{-\gamma}$, avec un exposant typique des réseaux sociaux ($\gamma \approx 2-3$).
+La représentation en échelle log-log de la fonction de distribution cumulative complémentaire (CCDF) révèle la présence de queues lourdes (figure~\ref{fig:ccdf}), se rapprochant d'une loi de puissance.
+La décroissance approximativement linéaire en échelle log-log est typique des réseaux où quelques nœuds concentrent une part importante des connexions.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{question2a_degree_ccdf.png}
+    \includegraphics[width=0.7\textwidth]{question2a_degree_ccdf.png}
     \caption{CCDF des degrés en échelle log-log}
     \label{fig:ccdf}
 \end{figure}
 
-Malgré des tailles différentes, les réseaux de Caltech, MIT et Johns Hopkins présentent des distributions qualitativement similaires.
-Cette invariance suggère l'existence de mécanismes de formation communs, tels que l'homophilie et l'attachement préférentiel, fréquemment observés dans les réseaux sociaux en ligne.
+On constate que malgré des différences de taille (de 762 à 6402 nœuds), les trois réseaux présentent des distributions qualitativement similaires, indiquant une organisation structurelle comparable.
 
 \subsection*{Clustering et densité}
 
-Les réseaux sont caractérisés par une densité très faible (tableau~\ref{tab:q2b}), ce qui est attendu pour des graphes sociaux de grande taille où le nombre de relations effectives reste faible comparé au nombre de relations possibles.
-En revanche, les coefficients de clustering, tant global que local moyen, sont élevés.
+Les réseaux sont caractérisés par une densité très faible (tableau~\ref{tab:q2b}), ce qui est cohérent pour des graphes sociaux de cette dimension.
+En revanche, les coefficients de clustering sont élevés comparativement à ce que l'on observerait dans un graphe aléatoire de même densité.
 
 \begin{table}[H]
 \centering
@@ -138,14 +132,10 @@ Johns Hopkins55 & 5\,157 & 186\,572 & 0,014 & 0,193 & 0,269 \\
 \label{tab:q2b}
 \end{table}
 
-Cette combinaison d'une faible densité et d'un fort clustering traduit une forte fermeture triadique : les amis d'un individu ont une probabilité élevée d'être également connectés entre eux.
-Ce phénomène reflète la présence de communautés locales fortement cohésives et constitue une propriété classique des réseaux sociaux réels, souvent associée à l'effet \textit{small-world}.
-
 \subsection*{Lien entre le degré et le clustering local}
 
 L'analyse de la relation entre le degré des sommets et leur coefficient de clustering local met en évidence une tendance décroissante (figure~\ref{fig:deg_clust}).
-Les nœuds de faible degré présentent en moyenne un clustering élevé, ce qui indique leur appartenance à des groupes locaux denses.
-À l'inverse, les nœuds fortement connectés ont un clustering plus faible, suggérant qu'ils relient plusieurs communautés distinctes plutôt que de s'inscrire dans une structure locale fortement fermée.
+Les nœuds de faible degré présentent en moyenne un clustering élevé, ce qui indique leur appartenance à des structures locales denses. À l'inverse, les nœuds fortement connectés ont un clustering plus faible.
 
 \begin{figure}[H]
     \centering
@@ -153,8 +143,6 @@ Les nœuds de faible degré présentent en moyenne un clustering élevé, ce qui
     \caption{Relation entre le degré et le coefficient de clustering local}
     \label{fig:deg_clust}
 \end{figure}
-
-Ce comportement est caractéristique d'une organisation hiérarchique des réseaux sociaux, dans laquelle les sommets de haut degré jouent un rôle de connecteurs globaux, facilitant la circulation de l'information entre communautés.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Question 3 - Assortativité et homophilie}
@@ -186,7 +174,7 @@ gender & 0,053 & 0,055 & $-0,092$ & 0,246 \\
     \caption{Assortativité par statut étudiant/faculté}
 \end{figure}
 
-L'attribut \textit{student\_fac} présente l'assortativité la plus élevée ($r = 0{,}32$), reflétant une forte ségrégation entre étudiants et enseignants. Ces deux groupes ont des rôles et des espaces distincts au sein du campus. Le scatter plot montre une stabilité remarquable quelle que soit la taille du réseau, et l'histogramme révèle des valeurs concentrées autour de $r > 0{,}3$ sans aucune assortativité négative, confirmant une barrière sociale structurelle universelle.
+L'attribut \textit{student\_fac} présente l'assortativité la plus élevée ($r = 0{,}32$), montrant une tendance marquée des étudiants à se connecter entre eux, et des membres de la faculté à faire de même. Les valeurs sont systématiquement positives ($r > 0{,}1$) sur l'ensemble des réseaux.
 
 \subsection*{Résidence (dorm)}
 
@@ -196,7 +184,7 @@ L'attribut \textit{student\_fac} présente l'assortativité la plus élevée ($r
     \caption{Assortativité par résidence}
 \end{figure}
 
-La résidence affiche également une assortativité élevée ($r = 0{,}23$), confirmant l'importance de la proximité géographique. La forte variabilité observée ($0{,}08$ à $0{,}48$) s'explique par des différences d'organisation spatiale entre universités. Le scatter plot suggère que les petits réseaux tendent vers une assortativité plus forte, reflétant une cohésion sociale accrue dans les petites communautés.
+La résidence affiche également une assortativité significative ($r = 0{,}23$), bien que l'on observe une forte variabilité ($0{,}08$ à $0{,}48$). Cela indique que le lieu de vie est un facteur corrélé aux connexions, mais son importance varie fortement selon l'organisation spécifique de chaque campus.
 
 \subsection*{Spécialité académique (major\_index)}
 
@@ -206,7 +194,7 @@ La résidence affiche également une assortativité élevée ($r = 0{,}23$), con
     \caption{Assortativité par spécialité académique}
 \end{figure}
 
-L'assortativité par spécialité est faible ($r = 0{,}056$), indiquant que la discipline n'est pas un déterminant majeur des liens. Contrairement à la résidence, la spécialité ne crée pas de ségrégation spatiale forte. L'histogramme montre une distribution concentrée près de zéro, reflétant que les liens Facebook transcendent largement les frontières disciplinaires via les activités sociales et les résidences partagées.
+L'assortativité par spécialité est faible ($r = 0{,}056$). Contrairement à la résidence ou au statut, la discipline académique ne semble pas être un facteur discriminant fort dans la structure des connexions sur Facebook pour ces données.
 
 \subsection*{Degré (degree)}
 
@@ -216,7 +204,7 @@ L'assortativité par spécialité est faible ($r = 0{,}056$), indiquant que la d
     \caption{Assortativité par degré}
 \end{figure}
 
-L'assortativité par degré est légèrement positive ($r = 0{,}063$) mais avec une forte variabilité ($-0{,}066$ à $0{,}197$). Cette tendance positive reflète le \textit{rich-club phenomenon} où les nœuds très connectés se lient préférentiellement entre eux. L'histogramme montre une dispersion importante : certains réseaux présentent une assortativité négative, suggérant des modèles hiérarchiques où les \textit{hubs} servent de ponts entre communautés plutôt que de former des cliques élitistes.
+L'assortativité par degré est légèrement positive ($r = 0{,}063$) mais très dispersée. Certains réseaux présentent une assortativité négative, ce qui signifie que les nœuds très connectés y sont reliés à des nœuds peu connectés, tandis que d'autres montrent une tendance inverse.
 
 \subsection*{Genre (gender)}
 
@@ -226,20 +214,19 @@ L'assortativité par degré est légèrement positive ($r = 0{,}063$) mais avec 
     \caption{Assortativité par genre}
 \end{figure}
 
-L'assortativité par genre est faible ($r = 0{,}053$), indiquant une mixité sociale importante. L'histogramme montre une distribution centrée près de zéro avec une forte variabilité ($-0{,}092$ à $0{,}246$). La légère tendance positive suggère une homophilie modérée, possiblement renforcée par les activités genrées (fraternités/sororités). La présence de valeurs négatives dans certains réseaux indique que les connexions inter-genres peuvent être plus fréquentes, notamment dans les contextes de relations romantiques.
+L'assortativité par genre est faible ($r = 0{,}053$) et centrée proche de zéro. Cela indique une mixité importante dans les connexions : le genre n'apparait pas comme un facteur structurant majeur des interactions dans ces graphes.
 
 \subsection*{Synthèse}
 
-L'analyse révèle une hiérarchie claire : \textit{student\_fac} ($r = 0{,}32$) $>$ \textit{dorm} ($r = 0{,}23$) $\gg$ \textit{degree} ($r = 0{,}06$) $\approx$ \textit{major\_index} ($r = 0{,}06$) $\approx$ \textit{gender} ($r = 0{,}05$). Les attributs spatiaux et statutaires dominent, confirmant l'importance de la proximité physique et de la structure institutionnelle. La forte variabilité inter-réseaux (particulièrement pour \textit{dorm}) souligne que chaque campus possède sa propre dynamique sociale.
+L'analyse des corrélations met en évidence que les attributs liés à l'organisation spatiale et institutionnelle (\textit{student\_fac}, \textit{dorm}) sont plus fortement corrélés à la structure du graphe que les attributs individuels ou académiques (\textit{major}, \textit{gender}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Question 4 - Prédiction de liens}
 
-Nous implémentons manuellement (sans utiliser les fonctions NetworkX) trois métriques classiques de prédiction de liens : \textbf{Common Neighbors} ($|N(u) \cap N(v)|$), \textbf{Jaccard} ($\frac{|N(u) \cap N(v)|}{|N(u) \cup N(v)|}$) et \textbf{Adamic-Adar} ($\sum_{w \in N(u) \cap N(v)} \frac{1}{\log |N(w)|}$).
+Nous implémentons manuellement trois métriques classiques de prédiction de liens : \textbf{Common Neighbors} ($|N(u) \cap N(v)|$), \textbf{Jaccard} ($\frac{|N(u) \cap N(v)|}{|N(u) \cup N(v)|}$) et \textbf{Adamic-Adar} ($\sum_{w \in N(u) \cap N(v)} \frac{1}{\log |N(w)|}$).
 
-L'évaluation est réalisée sur un échantillon de 15 réseaux aléatoires du jeu de données \textit{Facebook100}.
-Pour chaque réseau, une fraction $f \in \{0{,}05; 0{,}10; 0{,}15; 0{,}20\}$ des arêtes est supprimée aléatoirement, puis les liens manquants sont prédits à partir des scores calculés sur les paires candidates (ayant au moins un voisin commun).
-Les métriques Precision@k et Recall@k sont calculées pour $k \in \{50, 100, 200, 300, 400\}$.
+L'évaluation est réalisée sur un échantillon de 15 réseaux aléatoires.
+Pour chaque réseau, une fraction $f \in \{0{,}05; 0{,}10; 0{,}15; 0{,}20\}$ des arêtes est supprimée aléatoirement, puis les scores sont calculés pour tenter de retrouver ces liens manquants.
 
 \subsection*{Résultats agrégés}
 
@@ -322,39 +309,26 @@ Fraction & Méthode & P@50 & P@100 & P@200 & P@300 & P@400 \\
         \centering
         \includegraphics[width=\textwidth]{question4_link_prediction_f0.20.png}
     \end{minipage}
-    \caption{Performances par fraction d'arêtes supprimées : $f=0{,}05$ (haut gauche), $f=0{,}10$ (haut droit), $f=0{,}15$ (bas gauche), $f=0{,}20$ (bas droit)}
+    \caption{Performances par fraction d'arêtes supprimées}
     \label{fig:q4_by_f}
 \end{figure}
 
 \subsection*{Analyse comparative}
 
 \textbf{Performances générales :}
-La méthode \textbf{Jaccard} obtient les meilleures performances globales avec une précision moyenne de 61,3\%, devançant \textbf{Common Neighbors} (57,6\%) et \textbf{Adamic-Adar} (57,6\%). À $k=50$, Jaccard atteint 70,9\% de précision, soit environ 6 points de plus que les deux autres méthodes ($\approx$ 65\%). Cette supériorité s'explique par la normalisation de Jaccard qui pénalise les paires impliquant des nœuds de très haut degré : dans les réseaux sociaux, avoir de nombreux voisins communs est plus significatif lorsque les deux nœuds ont des voisinages modérés plutôt que lorsqu'un des deux est un \textit{hub} connecté à tous.
+Dans nos expériences, la métrique \textbf{Jaccard} obtient les meilleurs résultats globaux (précision moyenne de 61,3\%), devant \textbf{Common Neighbors} et \textbf{Adamic-Adar} (57,6\%). Cette différence est notable pour les petites valeurs de $k$ ($k=50$). Jaccard semble avantagée ici car elle normalise par la taille de l'union des voisinages, pénalisant ainsi les prédictions impliquant simplement des nœuds de très fort degré (hubs).
 
-Common Neighbors et Adamic-Adar obtiennent des performances quasi-identiques, suggérant que la pondération logarithmique d'Adamic-Adar (qui valorise les voisins communs peu connectés) n'apporte qu'un bénéfice marginal dans ces réseaux. Les deux méthodes privilégient le nombre absolu de voisins communs, ce qui peut favoriser des prédictions impliquant des \textit{hubs} même si la connexion n'est pas socialement significative.
+\textbf{Impact de la fraction supprimée :}
+On observe que la précision mesurée augmente avec la fraction d'arêtes supprimées $f$. Ce résultat peut sembler contre-intuitif, mais s'explique souvent par la nature des liens supprimés : plus on supprime d'arêtes, plus on a de chances de supprimer des liens faisant partie de triangles (qui sont faciles à prédire par ces méthodes locales), alors qu'avec un faible $f$, la proportion de liens "faciles" à retrouver dans l'ensemble de test peut être moindre.
 
-\textbf{Effet de la fraction d'arêtes supprimées :}
-Les performances augmentent systématiquement avec $f$ pour toutes les méthodes. Pour $f=0{,}05$, les précisions restent modestes (40-52\% à $k=50$), mais grimpent à 75-82\% pour $f=0{,}20$. Ce phénomène contre-intuitif s'explique par le fait qu'en supprimant plus d'arêtes, on facilite paradoxalement la tâche : les liens fortement intégrés dans des structures triangulaires denses (qui sont précisément ceux que les métriques détectent le mieux) restent prédictibles même après leur suppression, car leurs voisins communs demeurent. À l'inverse, avec $f=0{,}05$, on supprime proportionnellement plus de liens "faibles" difficilement prédictibles.
-
-\textbf{Comportement en fonction de $k$ :}
-La précision décroît progressivement avec $k$ pour toutes les méthodes, conformément aux attentes (les meilleurs candidats sont classés en tête). Jaccard maintient mieux ses performances : elle perd environ 18 points entre $k=50$ et $k=400$ (71\% $\to$ 53\%), contre 15 points pour Common Neighbors (65\% $\to$ 50\%) et Adamic-Adar (64\% $\to$ 50\%). Cette robustesse suggère un classement plus fiable sur toute la plage de prédictions.
-
-\textbf{Limitations méthodologiques :}
-Pour des raisons de complexité calculatoire, nous limitons l'évaluation à 50\,000 paires candidates par réseau (sélection aléatoire parmi les paires avec au moins un voisin commun). Cette approximation peut légèrement sous-estimer les performances sur les très grands réseaux, mais reste raisonnable car les paires sans voisin commun ont un score nul pour toutes les métriques.
-
-L'implémentation manuelle (sans NetworkX) a nécessité l'optimisation des calculs de similarité via le précalcul des voisinages et l'utilisation de structures ensemblistes, essentielles pour traiter efficacement des réseaux de plusieurs milliers de nœuds.
+\textbf{Conclusion :}
+Les méthodes basées sur le voisinage local fonctionnent bien sur ces réseaux, confirmant la forte transitivité (clustering) observée durant l'analyse descriptive. Jaccard offre le meilleur compromis dans ce contexte spécifique.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Question 5 - Propagation de labels}
 
-Nous appliquons un algorithme de propagation de labels semi-supervisé implémenté en PyTorch (utilisant des matrices sparse pour l'efficacité) afin de prédire des attributs manquants.
-L'algorithme itératif propage l'information des nœuds étiquetés vers les nœuds non étiquetés via la structure du graphe, en utilisant la formule :
-$$F^{(t+1)} = \alpha S F^{(t)} + (1-\alpha) Y$$
-où $S$ est la matrice d'adjacence normalisée, $Y$ les labels initiaux, $\alpha = 0{,}9$ le paramètre de mixage, et $F$ la matrice des probabilités de classe.
-
-L'évaluation est réalisée sur un échantillon de 15 réseaux aléatoires du jeu de données \textit{Facebook100}.
-Pour chaque réseau, une fraction de 10\%, 20\% et 30\% des labels connus est masquée aléatoirement, puis l'algorithme propage les labels à travers la structure du graphe.
-Les attributs testés sont : résidence (dorm), spécialité (major\_index) et genre (gender).
+Nous appliquons un algorithme de propagation de labels semi-supervisé ($F^{(t+1)} = \alpha S F^{(t)} + (1-\alpha) Y$) pour prédire les attributs manquants.
+L'évaluation est faite sur 15 réseaux avec masquage aléatoire de 10\%, 20\% et 30\% des labels.
 
 \begin{table}[H]
 \centering
@@ -376,57 +350,30 @@ gender & 20\% & 0,641 $\pm$ 0,108 & 0,592 $\pm$ 0,070 & 0,36 $\pm$ 0,11 \\
 gender & 30\% & 0,645 $\pm$ 0,107 & 0,595 $\pm$ 0,073 & 0,36 $\pm$ 0,11 \\
 \bottomrule
 \end{tabular}
-\caption{Performances moyennes de la propagation de labels (agrégées sur 15 réseaux). $^*$MAE à interpréter avec précaution pour les labels catégoriels non ordonnés (\textit{dorm}, \textit{major}).}
+\caption{Performances moyennes de la propagation de labels}
 \label{tab:q5}
-\end{table}
-
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{lccc}
-\toprule
-Attribut & Baseline (classe majoritaire) & Label Propagation & Gain \\
-\midrule
-dorm & 0,185 $\pm$ 0,082 & 0,650 $\pm$ 0,123 & +251\% \\
-major\_index & 0,156 $\pm$ 0,051 & 0,294 $\pm$ 0,075 & +88\% \\
-gender & 0,541 $\pm$ 0,044 & 0,645 $\pm$ 0,112 & +19\% \\
-\bottomrule
-\end{tabular}
-\caption{Comparaison avec une baseline "classe majoritaire" (fraction masquée = 10\%)}
-\label{tab:q5_baseline}
 \end{table}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{question5_label_propagation_aggregated.png}
-    \caption{Performances agrégées de la propagation de labels sur 15 réseaux (moyennes et écarts-types)}
+    \caption{Performances agrégées de la propagation de labels sur 15 réseaux}
 \end{figure}
 
-\textbf{Résultats clés :}
-Les attributs \textbf{dorm} (résidence) et \textbf{gender} (genre) sont les mieux prédits, avec des accuracies moyennes d'environ 64\%. Cela s'explique par leur forte corrélation avec la structure du réseau : les étudiants de même résidence ou de même genre ont tendance à se regrouper (homophilie), créant un signal topologique exploitable par la propagation. En revanche, l'attribut \textbf{major\_index} (spécialité) est beaucoup plus difficile à prédire avec une accuracy d'environ 29\%, bien que cela représente un gain significatif de 88\% par rapport à une baseline naïve (prédiction de la classe majoritaire : 15,6\%). Cette faible performance relative s'explique par le grand nombre de classes (jusqu'à 50+ disciplines différentes selon les universités), la distribution très inégale des disciplines où certaines sont sur-représentées (ingénierie, business) tandis que d'autres comptent moins de 10 étudiants, et le faible signal topologique puisque les étudiants de disciplines différentes peuvent être fortement connectés via des cours communs ou des activités extra-scolaires.
-
-La comparaison avec la baseline "classe majoritaire" (tableau~\ref{tab:q5_baseline}) révèle l'apport réel de la propagation de labels : pour \textit{dorm}, l'amélioration est spectaculaire (+251\%, de 18,5\% à 65\%), tandis que pour \textit{gender}, le gain est plus modeste (+19\%, de 54,1\% à 64,5\%) en raison d'une distribution de classes plus équilibrée qui favorise déjà la baseline.
-
-Les performances sont relativement stables lorsque la fraction de labels masqués augmente de 10\% à 30\%, avec une baisse inférieure à 5\% d'accuracy, témoignant de la robustesse de l'algorithme semi-supervisé. Même avec seulement 70\% de labels connus, la propagation reste efficace. Les écarts-types importants pour \textit{dorm} ($\sigma \approx 0{,}12$) et \textit{major\_index} ($\sigma \approx 0{,}07$) indiquent une forte variabilité inter-réseaux, certains réseaux présentant des structures particulièrement favorables à la propagation (clustering élevé, communautés bien définies) tandis que d'autres sont plus hétérogènes.
-
-\textbf{Note méthodologique sur le MAE :}
-Le MAE (Mean Absolute Error) est reporté dans le tableau~\ref{tab:q5} car demandé dans l'énoncé, mais doit être interprété avec précaution pour les attributs catégoriels non ordonnés comme \textit{dorm} et \textit{major\_index}. En effet, la distance numérique entre labels (ex. : dorm 5 vs dorm 10) n'a aucune signification sémantique et dépend d'un encodage arbitraire. Pour \textit{gender} (binaire), le MAE reste pertinent. Pour les attributs multi-classes non ordonnés, les métriques Accuracy et F1-macro sont plus appropriées car elles ne présupposent aucune relation d'ordre entre les classes.
-
-\textbf{Interprétation et lien avec l'assortativité :}
-Les performances de la propagation de labels sont directement corrélées avec les mesures d'assortativité observées en Question 3.
-Les attributs présentant une forte assortativité (\textit{dorm} : $r = 0{,}23$, \textit{gender} : $r = 0{,}05$) bénéficient d'un signal topologique fort, tandis que \textit{major\_index} ($r = 0{,}06$) souffre d'une homophilie trop faible pour permettre une propagation efficace.
-Cette cohérence valide l'hypothèse selon laquelle la structure du réseau encode de l'information sur les attributs des nœuds.
+Les attributs \textbf{dorm} et \textbf{gender} sont les mieux prédits (Accuracy $\approx$ 64-65\%), tandis que \textbf{major\_index} est difficile à prédire (Accuracy $\approx$ 29\%), bien que nettement supérieur au hasard compte tenu du grand nombre de disciplines.
+Ces résultats sont cohérents avec l'assortativité mesurée en Question 3 : les attributs les plus assortatifs (comme le dortoir) se propagent mieux dans le graphe car les voisins partagent souvent la même valeur.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Question 6 - Détection de communautés}
 
-\subsection*{Question de recherche et fondements théoriques}
+\subsection*{Objectif et Méthodologie}
 
-Cette question cherche à identifier \textbf{quel(s) attribut(s) des nœuds structure(nt) principalement les communautés observées dans les réseaux sociaux universitaires}. Plusieurs hypothèses concurrentes sont testées. La \textbf{structure résidentielle (dorm)} suggère que la proximité spatiale et les interactions quotidiennes dans les cafétérias, couloirs et événements devraient créer des communautés alignées sur les résidences. L'\textbf{homophilie académique (major)} postule que les étudiants de même discipline, partageant des cours, projets et intérêts communs, favoriseraient la formation de communautés disciplinaires. La \textbf{cohorte temporelle (year)} avance que les étudiants d'une même promotion, partageant un parcours académique similaire et des événements sociaux spécifiques (orientation, remise de diplôme), formeraient des groupes distincts. Enfin, l'\textbf{homophilie de genre (gender)} s'appuie sur les théories sociologiques suggérant une tendance à former des liens intra-genre, particulièrement dans certains contextes sociaux.
+L'objectif est de déterminer si les communautés structurelles détectées uniquement à partir de la topologie du graphe correspondent à des attributs réels des étudiants (dortoir, année, discipline, genre).
+Nous utilisons deux algorithmes de détection de communautés (\textbf{Louvain} et \textbf{Greedy Modularity}) et comparons les partitions obtenues avec les attributs réels via deux métriques : le \textbf{NMI} (Information Mutuelle Normalisée) et l'\textbf{ARI} (Adjusted Rand Index).
 
-\textbf{Méthodes employées :} Deux algorithmes de détection de communautés sont appliqués - \textbf{Louvain} (optimisation hiérarchique de la modularité, complexité quasi-linéaire) et \textbf{Greedy Modularity} (maximisation gloutonne de la modularité). La correspondance entre les communautés détectées et les attributs des nœuds est quantifiée par le \textbf{NMI (Normalized Mutual Information)} qui mesure l'information mutuelle normalisée entre deux partitions, variant de 0 (indépendantes) à 1 (identiques) et restant robuste aux variations du nombre de communautés, ainsi que par l'\textbf{ARI (Adjusted Rand Index)} qui mesure la similarité entre deux clusterings en corrigeant pour le hasard, variant de $-1$ à 1, et qui se montre plus strict que le NMI en pénalisant davantage les découpages approximatifs.
+Les tests sont effectués sur trois réseaux aux profils différents : \textit{Caltech36}, \textit{American75} et \textit{MIT8}.
 
-Les expériences sont menées sur trois réseaux représentatifs : \textit{Caltech36} (petit campus scientifique, structure résidentielle forte), \textit{American75} (université de taille moyenne), \textit{MIT8} (grande université technologique).
+\subsection*{Analyse des résultats}
 
 \begin{table}[H]
 \centering
@@ -445,63 +392,39 @@ MIT8 & Louvain & dorm & 13 & 0,292 & 0,070 \\
 MIT8 & Louvain & year & 13 & 0,288 & 0,275 \\
 \bottomrule
 \end{tabular}
-\caption{Correspondance communautés / attributs (meilleurs résultats)}
+\caption{Comparaison des communautés détectées avec les attributs réels (meilleurs scores)}
 \label{tab:q6}
-\end{table}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{lcc}
-\toprule
-Attribut & NMI moyen & ARI moyen \\
-\midrule
-dorm & 0,327 & 0,204 \\
-year & 0,215 & 0,163 \\
-major\_index & 0,055 & 0,010 \\
-gender & 0,006 & 0,002 \\
-\bottomrule
-\end{tabular}
-\caption{Statistiques moyennes par attribut sur les trois réseaux}
 \end{table}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{question6_communities_Caltech36.png}
-    \caption{Comparaison NMI et ARI pour Caltech36}
+    \caption{Scores NMI et ARI pour Caltech36}
 \end{figure}
 
-\subsection*{Résultats et interprétation}
+L'analyse des scores NMI et ARI permet de dégager plusieurs constats réalistes sur la structure de ces réseaux :
 
-\textbf{Observations principales :}
-L'analyse révèle une \textbf{domination claire de la structure résidentielle}, l'attribut \textit{dorm} présentant systématiquement la meilleure correspondance avec un NMI moyen de 0,33 et un ARI moyen de 0,20. Pour Caltech36, le score atteint même NMI = 0,70 et ARI = 0,69 avec l'algorithme Louvain, indiquant une quasi-superposition entre communautés topologiques et résidences. L'attribut \textit{year} montre un \textbf{effet modéré de la cohorte temporelle} avec une correspondance significative mais inférieure (NMI $\approx 0{,}21$), particulièrement marquée pour American75 et MIT8, suggérant que les interactions intra-promotion sont importantes mais secondaires par rapport à la proximité spatiale.
+\textbf{Le cas particulier de Caltech36 :}
+Sur ce réseau, l'attribut \textbf{dorm} (résidence) obtient des scores très élevés avec l'algorithme Louvain (NMI = 0,70 ; ARI = 0,69). Cela indique une correspondance presque directe entre les communautés topologiques et les résidences. C'est une spécificité connue de Caltech, organisée autour d'un "House System" très structurant pour la vie sociale.
 
-En revanche, on observe une \textbf{faiblesse de l'homophilie académique et de genre}, les attributs \textit{major\_index} (NMI = 0,055) et \textit{gender} (NMI = 0,006) ne structurant quasiment pas les communautés. Les étudiants de disciplines différentes interagissent fortement via des cours communs et des activités, et les relations sociales transcendent largement les frontières de genre dans ce contexte. Une \textbf{variabilité inter-réseaux} notable apparaît : Caltech36 présente une structure résidentielle exceptionnellement forte liée à son house system historique, tandis que MIT8 et American75 montrent des scores plus équilibrés entre \textit{dorm} et \textit{year}, reflétant les différences d'organisation des campus et de politiques institutionnelles.
+\textbf{Résultats mitigés pour les autres universités :}
+Pour \textit{American75} et \textit{MIT8}, les résultats sont différents. Bien que les attributs \textbf{dorm} et \textbf{year} (année de promotion) obtiennent les meilleurs scores comparés aux autres attributs, les valeurs absolues restent modérées (NMI autour de 0,27-0,29).
+Cela signifie que si la résidence et l'année influencent la formation des groupes, elles ne suffisent pas à expliquer la totalité de la structure communautaire. Les communautés détectées par les algorithmes sont probablement le résultat d'une combinaison complexe de plusieurs facteurs (cours communs, activités extra-scolaires, résidences) qu'un seul attribut ne peut capturer entièrement.
 
-\textbf{Implications théoriques :} Ces résultats valident les théories de la géographie sociale et de l'homophilie spatiale. Les algorithmes de détection de communautés capturent en priorité les contraintes physiques (co-location) plutôt que les similarités d'attributs abstraits (discipline, genre). Cela suggère que les modèles prédictifs devraient privilégier les features spatiales et temporelles.
+\textbf{Attributs non structurants :}
+Les attributs \textbf{major} (discipline) et \textbf{gender} (genre) obtiennent systématiquement des scores très faibles (NMI proche de 0). Topologiquement, les graphes ne se divisent pas selon ces lignes : les étudiants de différentes disciplines et genres sont fortement mélangés.
+
+\textbf{Conclusion :}
+L'algorithme de détection de communautés retrouve efficacement la structure résidentielle là où elle est l'organisateur principal de la vie sociale (Caltech). Pour les campus plus grands et moins cloisonnés, les communautés détectées sont plus floues et ne correspondent pas uniquement à un critère administratif simple.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Discussion et perspectives}
+\section*{Conclusion Générale}
 
-\subsection*{Principaux enseignements}
+Ce projet a permis d'explorer les propriétés des réseaux sociaux universitaires via le jeu de données Facebook100.
+L'analyse descriptive a confirmé des caractéristiques structurelles communes : forte hétérogénéité des degrés, clustering élevé et présence de phénomènes "small-world".
+L'analyse des attributs a montré que les facteurs spatiaux (résidence) et temporels (année d'étude) sont davantage corrélés aux connexions que les facteurs académiques ou de genre, un résultat confirmé à la fois par l'étude de l'assortativité, la propagation de labels et la détection de communautés.
+Enfin, les méthodes classiques de prédiction de liens basées sur le voisinage local se sont montrées performantes, validant l'importance des structures locales (triangles) dans ces réseaux.
 
-Ce projet met en évidence plusieurs propriétés fondamentales des réseaux sociaux universitaires. Les 15 réseaux étudiés présentent une \textbf{hétérogénéité structurelle universelle}, caractérisée par des distributions de degrés à queue lourde (scale-free), des coefficients de clustering élevés ($C \approx 0{,}20$) et une assortativité positive ($r \approx 0{,}05$). Ces propriétés robustes suggèrent des mécanismes de formation universels tels que l'attachement préférentiel, la triadic closure et l'homophilie spatiale.
-
-Les analyses révèlent également la \textbf{dominance des contraintes spatiales}, la proximité géographique (résidences) structurant massivement les interactions sociales, davantage que les similarités académiques (discipline) ou démographiques (genre). Les tests statistiques de la Question 6 et la propagation de labels de la Question 5 convergent vers cette conclusion. L'\textbf{efficacité des méthodes semi-supervisées} est démontrée par la propagation de labels qui atteint 64\% d'accuracy pour prédire les résidences avec seulement 70\% de labels connus, montrant que la topologie encode fortement les attributs lorsque l'homophilie est présente. Enfin, la \textbf{performance de la prédiction de liens} est confirmée par les scores obtenus (Precision@50 $\approx$ 0,20 pour Common Neighbors, AUC $\approx$ 0,85 pour Adamic-Adar), démontrant que les mesures de proximité locale capturent efficacement les processus de formation de liens sans nécessiter d'apprentissage supervisé.
-
-\subsection*{Limitations méthodologiques}
-
-Plusieurs limites doivent être soulignées. Les \textbf{données statiques} utilisées capturent une photographie instantanée datant de 2005 sans information temporelle, empêchant l'observation de l'évolution des liens (formation, dissolution) et l'étude de la dynamique temporelle. Des \textbf{approximations numériques} ont été nécessaires pour la Question 4 (prédiction de liens), où l'espace des paires candidates a été réduit à 50\,000 pour des raisons computationnelles, introduisant un biais de sous-échantillonnage qui peut avantager les méthodes locales. Les attributs \textit{major\_index} et \textit{gender} présentent des taux de complétion variables entre 60\% et 95\% selon les réseaux, constituant des \textbf{valeurs manquantes} qui limitent la fiabilité des analyses associées. Enfin, l'\textbf{absence de validation externe} est notable, les résultats de propagation de labels et de détection de communautés n'étant pas confrontés à des données de terrain telles que des enquêtes sociologiques ou des observations comportementales, ce qui limite leur portée causale.
-
-\subsection*{Extensions possibles}
-
-Ce travail ouvre plusieurs perspectives de recherche prometteuses. L'utilisation d'\textbf{embeddings géométriques (Node2Vec, GraphSAGE)} permettrait de remplacer les heuristiques topologiques (Common Neighbors, Adamic-Adar) par des représentations continues apprises par des réseaux de neurones graphiques (GNN), ces méthodes pouvant mieux capturer les motifs structurels complexes et améliorer significativement la prédiction de liens. L'ajustement de \textbf{modèles génératifs} tels que le Stochastic Block Model ou les Exponential Random Graph Models permettrait de quantifier explicitement l'effet de chaque attribut (résidence, discipline, année) sur la probabilité de formation d'un lien.
-
-L'\textbf{analyse temporelle} constitue une extension naturelle via la collecte de données longitudinales (évolution sur plusieurs années) pour étudier les dynamiques de formation et dissolution de liens, identifier les événements catalyseurs (rentrée, examens, événements sociaux) et modéliser les processus temporels (Temporal Point Processes). Le \textbf{transfert inter-universités} pourrait tester la généralisabilité des modèles entraînés sur un réseau (e.g., Caltech36) à d'autres universités, permettant d'identifier les invariants structurels et les spécificités contextuelles. Enfin, une \textbf{validation causale} couplant les analyses de réseau avec des données qualitatives (entretiens, journaux de bord) validerait les hypothèses causales, par exemple en déterminant si la proximité résidentielle cause réellement les liens ou s'il existe un biais de sélection.
-
-\subsection*{Synthèse}
-
-Les réseaux sociaux universitaires constituent un cas d'étude privilégié pour la science des réseaux : taille modeste (600-5000 nœuds), structure bien définie, attributs riches et mécanismes de formation transparents. Les méthodes classiques (heuristiques topologiques, propagation de labels, détection de communautés) se révèlent remarquablement efficaces, atteignant des performances compétitives sans nécessiter d'apprentissage profond.
-
-Ce projet démontre que l'analyse de graphes à grande échelle peut être menée efficacement avec des outils computationnels modernes (PyTorch, algorithmes optimisés), ouvrant la voie à l'étude de réseaux bien plus vastes (millions de nœuds) et dynamiques.
+Les limites de cette étude résident principalement dans l'aspect statique des données et l'absence d'informations contextuelles supplémentaires qui permettraient d'affiner l'interprétation des communautés détectées sur les grands réseaux.
 
 \end{document}

@@ -186,9 +186,7 @@ def plot_degree_vs_clustering(graphs: Dict[str, nx.Graph], output_dir: str = "re
 def analyze_question2(graphs: Dict[str, nx.Graph], output_dir: str = "report/figures"):
     """Analyse complète pour la Question 2"""
     
-    print("\n" + "="*80)
     print("QUESTION 2a: DISTRIBUTION DES DEGRÉS")
-    print("="*80)
     
     # Statistiques de degré
     degree_stats = []
@@ -233,24 +231,17 @@ def analyze_question2(graphs: Dict[str, nx.Graph], output_dir: str = "report/fig
     df_degrees.to_csv(output_path / "question2a_degree_stats.csv", index=False)
     df_clustering.to_csv(output_path / "question2b_clustering_stats.csv", index=False)
     
-    print("\n" + "="*80)
     print("QUESTION 2c: RELATION DEGRÉ VS CLUSTERING")
-    print("="*80)
     
     plot_degree_vs_clustering(graphs, output_dir)
     
-    print("\nAnalyse Question 2 terminée")
-
 
 def main():
-    """Fonction principale"""
-    # Configuration
+    """Fonction principale - Analyse détaillée sur 3 réseaux sélectionnés"""
     DATA_DIR = "data"
     SELECTED_NETWORKS = ["Caltech36", "MIT8", "Johns Hopkins55"]
     
-    print("="*80)
     print("QUESTION 2: ANALYSE DÉTAILLÉE DES RÉSEAUX SOCIAUX")
-    print("="*80 + "\n")
     
     try:
         # Charger les données avec cache

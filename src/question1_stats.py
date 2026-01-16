@@ -1,5 +1,5 @@
 """
-Question 1: Statistiques globales des réseaux Facebook100
+Statistiques globales des réseaux Facebook100
 
 Calcule les métriques standards pour caractériser les réseaux:
 - n: nombre de nœuds
@@ -129,10 +129,8 @@ def display_summary(df: pd.DataFrame):
         print("Aucun résultat à afficher")
         return
     
-    print("\n" + "="*80)
-    print("QUESTION 1 — STATISTIQUES GLOBALES DES RÉSEAUX")
-    print("="*80)
-    
+    print("STATISTIQUES GLOBALES DES RÉSEAUX")
+        
     # Formater l'affichage
     pd.set_option('display.max_columns', None)
     pd.set_option('display.width', None)
@@ -141,9 +139,7 @@ def display_summary(df: pd.DataFrame):
     print("\n" + df.to_string(index=False))
     
     # Statistiques agrégées
-    print("\n" + "-"*80)
     print("STATISTIQUES AGRÉGÉES (sur tous les réseaux)")
-    print("-"*80)
     
     numeric_cols = ["n", "m", "degré_moyen", "densité", 
                     "clustering_global", "clustering_local_moyen", "assortativité_degré"]
@@ -163,24 +159,15 @@ def save_results(df: pd.DataFrame, output_dir: str = "results"):
 
 
 def main():
-    """Fonction principale"""
-    # Configuration
+    """Fonction principale - Analyse statistiques globales des 100 réseaux Facebook"""
     DATA_DIR = "data"
     
-    # Réseaux suggérés pour la Question 1 (peuvent être ajustés)
-    SELECTED_NETWORKS = [
-        "Caltech36",
-        "MIT8", 
-        "Johns Hopkins55",
-        "American75"  # Ajout d'un réseau supplémentaire pour comparaison
-    ]
-    
     print("="*80)
-    print("QUESTION 1: STATISTIQUES GLOBALES DES RÉSEAUX FACEBOOK100")
+    print("STATISTIQUES GLOBALES DES RÉSEAUX FACEBOOK100")
     print("="*80 + "\n")
     
-    # Charger les données avec cache
     try:
+        # Charger tous les graphes avec cache
         graphs = load_graphs_with_cache(data_dir=DATA_DIR, verbose=True)
         
         if not graphs:
@@ -190,19 +177,9 @@ def main():
         print(f"\n{len(graphs)} réseaux chargés\n")
         
         # Analyser tous les réseaux disponibles
-        print("\nAnalyse de TOUS les réseaux disponibles:")
         df_all = analyze_all_networks(graphs, selected_networks=None)
         display_summary(df_all)
         save_results(df_all, output_dir="report/figures")
-        
-        # Analyser uniquement les réseaux sélectionnés
-        available_selected = [name for name in SELECTED_NETWORKS if name in graphs]
-        if available_selected:
-            print("\n" + "="*80)
-            print("ANALYSE FOCALISÉE SUR LES RÉSEAUX SÉLECTIONNÉS")
-            print("="*80 + "\n")
-            df_selected = analyze_all_networks(graphs, selected_networks=available_selected)
-            display_summary(df_selected)
         
     except FileNotFoundError as e:
         print(f"\nErreur: {e}")

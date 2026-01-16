@@ -181,9 +181,7 @@ def plot_assortativity(df: pd.DataFrame, attribute: str, output_dir: str = "repo
 def analyze_question3(graphs: Dict[str, nx.Graph], output_dir: str = "report/figures"):
     """Analyse complète pour la Question 3"""
     
-    print("\n" + "="*80)
     print("QUESTION 3: ASSORTATIVITÉ (HOMOPHILIE)")
-    print("="*80)
     
     # Les 5 attributs demandés (avec les vrais noms dans les fichiers .gml)
     attributes = [
@@ -227,13 +225,11 @@ def analyze_question3(graphs: Dict[str, nx.Graph], output_dir: str = "report/fig
                 "assort_std": df['assortativité'].std()
             })
         else:
-            print(f"  ⚠ Aucune donnée utilisable pour {attr}")
+            print(f"  Aucune donnée utilisable pour {attr}")
     
     # Tableau récapitulatif
     if all_results:
-        print("\n" + "="*80)
         print("RÉCAPITULATIF")
-        print("="*80 + "\n")
         
         df_summary = pd.DataFrame(all_results)
         df_summary = df_summary[["attribut", "description", "n_réseaux", 
@@ -248,14 +244,11 @@ def analyze_question3(graphs: Dict[str, nx.Graph], output_dir: str = "report/fig
         df_summary.to_csv(summary_path, index=False)
         print(f"\nRésumé sauvegardé: {summary_path}")
     
-    print("\nAnalyse Question 3 terminée")
 def main():
-    """Fonction principale"""
+    """Fonction principale - Analyse de l'assortativité sur tous les réseaux"""
     DATA_DIR = "data"
     
-    print("="*80)
     print("QUESTION 3: ASSORTATIVITÉ SUR LES RÉSEAUX FACEBOOK100")
-    print("="*80 + "\n")
     
     try:
         # Charger tous les graphes avec cache

@@ -61,14 +61,14 @@ def detect_communities(G: nx.Graph) -> Dict[str, List]:
         communities = nx.algorithms.community.louvain_communities(G, seed=0)
         results["Louvain"] = list(communities)
     except Exception as e:
-        print(f"  ⚠ Louvain indisponible: {e}")
+        print(f"  Louvain indisponible: {e}")
     
     # Méthode 2: Greedy Modularity
     try:
         communities = nx.algorithms.community.greedy_modularity_communities(G)
         results["Greedy Modularity"] = list(communities)
     except Exception as e:
-        print(f"  ⚠ Greedy Modularity échec: {e}")
+        print(f"  Greedy Modularity échec: {e}")
     
     return results
 
@@ -365,19 +365,18 @@ def analyze_question6(graphs: Dict[str, nx.Graph], output_dir: str = "report/fig
     print(f"NMI moyen: {best_nmi:.4f}")
     
     if best_nmi > 0.3:
-        print("\n→ FORTE correspondance: Les communautés reflètent principalement cet attribut")
+        print("\nFORTE correspondance: Les communautés reflètent principalement cet attribut")
     elif best_nmi > 0.1:
-        print("\n→ MODÉRÉE: Les communautés sont partiellement influencées par cet attribut")
+        print("\nMODÉRÉE: Les communautés sont partiellement influencées par cet attribut")
     else:
-        print("\n→ FAIBLE: Les communautés ne correspondent pas fortement aux attributs sociaux")
+        print("\nFAIBLE: Les communautés ne correspondent pas fortement aux attributs sociaux")
     
-    print("\n✓ Analyse Question 6 terminée")
+    print("\nAnalyse Question 6 terminée")
 
 
 def main():
-    """Fonction principale"""
+    """Fonction principale - Détection de communautés sur 3 réseaux sélectionnés"""
     DATA_DIR = "data"
-    # Réseaux à analyser (peut être ajusté selon l'hypothèse)
     SELECTED_NETWORKS = ["American75", "Caltech36", "MIT8"]
     
     print("="*80)
@@ -395,18 +394,18 @@ def main():
         # Sélectionner les réseaux
         selected_graphs = {}
         for name in SELECTED_NETWORKS:
-            if name in graphs:
-                selected_graphs[name] = graphs[name]
+            if name in all_graphs:
+                selected_graphs[name] = all_graphs[name]
             else:
                 print(f"Réseau '{name}' non trouvé")
         
         if not selected_graphs:
-            # Prendre le premier disponible
+            # Prendre le premier disponible par défaut
             first_name = next(iter(all_graphs))
             selected_graphs[first_name] = all_graphs[first_name]
             print(f"\nUtilisation de '{first_name}' par défaut")
         
-        print(f"\n✓ {len(selected_graphs)} réseau(x) sélectionné(s)")
+        print(f"\n{len(selected_graphs)} réseau(x) sélectionné(s)\n")
         
         # Analyser
         analyze_question6(selected_graphs, output_dir="report/figures")

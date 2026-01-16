@@ -210,7 +210,7 @@ def evaluate_label_propagation(G: nx.Graph,
         try:
             y_pred = label_propagation(G, y_obs, mask_labeled, device=device)
         except Exception as e:
-            print(f"    ⚠ Échec pour f={frac}: {e}")
+            print(f"    Échec pour f={frac}: {e}")
             continue
         
         # Évaluer
@@ -271,9 +271,7 @@ def plot_label_propagation_results(df: pd.DataFrame, output_dir: str = "report/f
 def analyze_question5(G: nx.Graph, graph_name: str, output_dir: str = "report/figures"):
     """Analyse complète pour la Question 5"""
     
-    print("\n" + "="*80)
     print("QUESTION 5: LABEL PROPAGATION")
-    print("="*80)
     print(f"\nRéseau: {graph_name}")
     print(f"Nœuds: {G.number_of_nodes():,}, Arêtes: {G.number_of_edges():,}\n")
     
@@ -297,19 +295,17 @@ def analyze_question5(G: nx.Graph, graph_name: str, output_dir: str = "report/fi
             print(f"  Terminé")
             
         except Exception as e:
-            print(f"  ✗ Échec: {e}")
+            print(f"  Échec: {e}")
     
     if not all_results:
-        print("\n❌ Aucun résultat obtenu")
+        print("\nAucun résultat obtenu")
         return
     
     # Combiner les résultats
     df_all = pd.concat(all_results, ignore_index=True)
     
     # Afficher
-    print("\n" + "-"*80)
     print("Résultats de Label Propagation:")
-    print("-"*80)
     print(df_all.to_string(index=False))
     
     # Sauvegarder
@@ -337,9 +333,7 @@ def analyze_question5_multiple(graphs: Dict[str, nx.Graph], output_dir: str = "r
         graphs: Dictionnaire {nom_graphe: graphe_NetworkX}
         output_dir: Répertoire de sortie
     """
-    print(f"\n{'='*80}")
     print(f"Analyse de {len(graphs)} graphes pour Label Propagation")
-    print(f"{'='*80}\n")
     
     all_results = []
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -359,21 +353,19 @@ def analyze_question5_multiple(graphs: Dict[str, nx.Graph], output_dir: str = "r
                                                seed=0, device=device)
                 df["network"] = graph_name
                 all_results.append(df)
-                print("✓")
+                print("OK")
             except Exception as e:
-                print(f"✗ ({e})")
+                print(f"ERREUR ({e})")
     
     if not all_results:
-        print("\n❌ Aucun résultat obtenu")
+        print("\nAucun résultat obtenu")
         return
     
     # Combiner tous les résultats
     df_all = pd.concat(all_results, ignore_index=True)
     
     # Statistiques agrégées par attribut et fraction
-    print("\n" + "="*80)
     print("Résultats agrégés (moyenne sur tous les graphes):")
-    print("="*80)
     
     agg_stats = df_all.groupby(["attribut", "fraction_retirée"]).agg({
         "accuracy": ["mean", "std"],
@@ -389,17 +381,17 @@ def analyze_question5_multiple(graphs: Dict[str, nx.Graph], output_dir: str = "r
     
     csv_detailed = output_path / "question5_label_propagation_detailed.csv"
     df_all.to_csv(csv_detailed, index=False)
-    print(f"\n✓ Résultats détaillés: {csv_detailed}")
+    print(f"\nRésultats détaillés: {csv_detailed}")
     
     csv_aggregated = output_path / "question5_label_propagation_aggregated.csv"
     agg_stats.to_csv(csv_aggregated)
-    print(f"✓ Résultats agrégés: {csv_aggregated}")
+    print(f"Résultats agrégés: {csv_aggregated}")
     
     # Visualisation agrégée
     print("\nGénération des graphiques...")
     plot_label_propagation_aggregated(df_all, output_dir)
     
-    print("\n✓ Analyse Question 5 (multi-graphes) terminée")
+    print("\nAnalyse Question 5 (multi-graphes) terminée")
 
 
 def plot_label_propagation_aggregated(df: pd.DataFrame, output_dir: str):
@@ -458,44 +450,39 @@ def plot_label_propagation_aggregated(df: pd.DataFrame, output_dir: str):
     
     png_path = output_path / "question5_label_propagation_aggregated.png"
     plt.savefig(png_path, dpi=300, bbox_inches='tight')
-    print(f"  ✓ Figure sauvegardée: {png_path}")
+    print(f"Figure sauvegardée: {png_path}")
     plt.close()
 
 
 def main():
-    """Fonction principale"""
+    """Fonction principale - Label propagation sur 15 réseaux aléatoires"""
     DATA_DIR = "data"
-    NUM_GRAPHS = 15  # Nombre de graphes à échantillonner
+    NUM_NETWORKS = 15
     SEED = 42
     
-    print("="*80)
-    print("QUESTION 5: LABEL PROPAGATION SUR RÉSEAUX FACEBOOK100")
-    print(f"Analyse sur {NUM_GRAPHS} réseaux aléatoires")
-    print("="*80 + "\n")
-    
+    print(f"QUESTION 5: LABEL PROPAGATION SUR {NUM_NETWORKS} RÉSEAUX")
+
     try:
         # Charger les données avec cache
         all_graphs = load_graphs_with_cache(data_dir=DATA_DIR, verbose=True)
         
         if not all_graphs:
-            print("❌ Aucun graphe chargé")
+            print("Aucun graphe chargé")
             return
         
-        # Échantillonner NUM_GRAPHS graphes aléatoirement
+        # Échantillonner NUM_NETWORKS graphes aléatoirement
         random.seed(SEED)
         available_names = list(all_graphs.keys())
         
-        if len(available_names) < NUM_GRAPHS:
-            print(f"⚠ Seulement {len(available_names)} graphes disponibles, analyse de tous")
+        if len(available_names) < NUM_NETWORKS:
+            print(f"Seulement {len(available_names)} graphes disponibles, analyse de tous")
             sampled_names = available_names
         else:
-            sampled_names = random.sample(available_names, NUM_GRAPHS)
+            sampled_names = random.sample(available_names, NUM_NETWORKS)
         
         sampled_graphs = {name: all_graphs[name] for name in sampled_names}
         
-        print(f"\n✓ {len(sampled_graphs)} graphes sélectionnés aléatoirement:")
-        for name in sampled_names:
-            print(f"  - {name}")
+        print(f"\n{len(sampled_graphs)} graphes sélectionnés aléatoirement\n")
         
         # Analyser tous les graphes sélectionnés
         analyze_question5_multiple(sampled_graphs, output_dir="report/figures")
