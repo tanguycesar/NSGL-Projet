@@ -8,10 +8,6 @@ Démarche:
 4. Analyser la correspondance avec les attributs
 5. Conclure
 
-Méthodes:
-- Louvain (si disponible)
-- Greedy Modularity
-
 Métriques de comparaison:
 - NMI (Normalized Mutual Information)
 - ARI (Adjusted Rand Index)
