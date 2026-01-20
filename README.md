@@ -44,7 +44,6 @@ NSGL-Projet/
 #### **`src/`** - Scripts d'analyse
 Chaque question du TP possède son propre script Python :
 
-1. **`question1_stats.py`** : Analyse descriptive des 100 réseaux (degrés, clustering, assortativité)
 2. **`question2_analysis.py`** : Analyse détaillée de 3 réseaux (Caltech, MIT, Johns Hopkins)
 3. **`question3_assortativity.py`** : Assortativité pour 5 attributs (student_fac, dorm, major, degree, gender)
 4. **`question4_link_prediction.py`** : Prédiction de liens (Common Neighbors, Jaccard, Adamic-Adar)
@@ -84,7 +83,6 @@ python src/run_analysis.py
 
 **Option B** : Exécuter question par question
 ```bash
-python src/question1_stats.py
 python src/question2_analysis.py
 python src/question3_assortativity.py
 python src/question4_link_prediction.py
@@ -107,7 +105,7 @@ pdflatex rapport_NSGL_CESAR.tex  # Deux fois pour les références croisées
 Tous les résultats (figures PNG et tableaux CSV) sont automatiquement sauvegardés dans `report/figures/`.
 
 Le rapport final contient :
--  Analyse descriptive des 100 réseaux (Q1)
+-  Analyse descriptive des 100 réseaux
 -  Étude détaillée de 3 réseaux spécifiques (Q2)
 -  Assortativité et homophilie pour 5 attributs (Q3)
 -  Prédiction de liens avec 3 métriques (Q4)
