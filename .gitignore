@@ -40,5 +40,8 @@ Desktop.ini
 graph_cache.pkl
 *.pkl
 
+# Fichiers CSV dans figures (garder uniquement les images)
+report/figures/*.csv
+
 # Data (optionnel - décommenter si les données sont trop lourdes)
 # data/
