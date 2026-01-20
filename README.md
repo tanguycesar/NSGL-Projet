@@ -102,7 +102,7 @@ pdflatex rapport_NSGL_CESAR.tex  # Deux fois pour les références croisées
 
 ## Résultats
 
-Tous les résultats (figures PNG et tableaux CSV) sont automatiquement sauvegardés dans `report/figures/`.
+Tous les résultats sont automatiquement sauvegardés dans `report/figures/`.
 
 Le rapport final contient :
 -  Analyse descriptive des 100 réseaux
